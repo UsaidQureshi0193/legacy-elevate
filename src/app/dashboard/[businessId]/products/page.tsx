@@ -6,6 +6,7 @@ import { lowStockItems } from "@/lib/calculations";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
 import { ProductForm } from "@/features/products/product-form";
 import { ProductTable } from "@/features/products/product-table";
+import { ProductVisuals } from "@/features/products/product-visuals";
 
 export const metadata: Metadata = { title: "Products — Elevate" };
 
@@ -29,6 +30,7 @@ async function ProductsContent({
             : `${products.length} product${products.length === 1 ? "" : "s"}${low > 0 ? `, ${low} running low` : ""}. Sales take stock out automatically and purchases put it back.`
         }
       />
+      <ProductVisuals products={products} currency={business.currency} />
       <ProductTable
         businessId={businessId}
         currency={business.currency}

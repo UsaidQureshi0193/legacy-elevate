@@ -58,8 +58,21 @@ export function TrendTable({ trend, currency }: { trend: Trend; currency: string
 
       {trend.kind === "not-enough-data" ? (
         <div className="mt-4 flex flex-1 flex-col justify-end">
-          <div className="flex h-40 items-end border-b-2 border-control">
-            <p className="mb-auto text-sm text-muted">{trend.reason}</p>
+          <div className="relative flex h-48 w-full items-end justify-between border-b border-border px-6 pb-2">
+            <div className="flex h-full w-full items-end justify-around opacity-30 gap-2">
+              <div className="h-12 w-8 rounded-t bg-surface-muted" />
+              <div className="h-20 w-8 rounded-t bg-surface-muted" />
+              <div className="h-16 w-8 rounded-t bg-primary/30" />
+              <div className="h-28 w-8 rounded-t bg-surface-muted" />
+              <div className="h-10 w-8 rounded-t bg-surface-muted" />
+              <div className="h-24 w-8 rounded-t bg-surface-muted" />
+            </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+              <span className="rounded-full bg-surface border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-xs">
+                📊 Daily Sales Trend
+              </span>
+              <p className="mt-2 text-xs text-muted max-w-xs leading-relaxed">{trend.reason}</p>
+            </div>
           </div>
         </div>
       ) : (

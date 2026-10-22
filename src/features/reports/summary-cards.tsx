@@ -97,21 +97,23 @@ export function SummaryCards({ summary, currency }: { summary: PeriodSummary; cu
       </ol>
 
       {summary.warnings.length > 0 ? (
-        <ul
-          aria-label="Data notes"
-          className="flex flex-col gap-1.5 rounded-xl border border-warning-border bg-warning-bg px-4 py-3 text-sm text-warning"
-        >
-          {summary.warnings.map((w) => (
-            <li key={w.code} className="flex gap-2">
-              <AlertIcon className="mt-0.5 shrink-0" />
-              <span>{w.message}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="flex flex-col gap-2 rounded-xl border border-border bg-surface-muted/50 p-3.5 text-xs text-muted shadow-xs">
+          <div className="flex items-center gap-2 font-semibold text-foreground">
+            <InfoIcon size={14} className="text-primary shrink-0" />
+            <span>Period Notes</span>
+          </div>
+          <ul className="flex flex-col gap-1.5 pl-4 list-disc text-muted">
+            {summary.warnings.map((w) => (
+              <li key={w.code} className="leading-relaxed">
+                {w.message}
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
-        <p className="flex items-center gap-2 text-xs text-muted">
-          <InfoIcon className="shrink-0" />
-          No data gaps found. Net profit is still an estimate: it only deducts the expenses you recorded.
+        <p className="flex items-center gap-1.5 text-xs text-muted">
+          <InfoIcon size={13} className="shrink-0 text-primary" />
+          No data gaps found. Net profit is an estimate based on your recorded expenses.
         </p>
       )}
     </section>

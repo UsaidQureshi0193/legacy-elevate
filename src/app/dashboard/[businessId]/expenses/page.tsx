@@ -5,6 +5,7 @@ import { listExpensesForBusiness, type Expense } from "@/server/expenses";
 import { formatMoney } from "@/lib/money";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
 import { ExpenseForm } from "@/features/expenses/expense-form";
+import { ExpenseVisuals } from "@/features/expenses/expense-visuals";
 import { DeleteExpenseButton } from "@/features/expenses/delete-expense-button";
 import { emptyStateClass, panelClass } from "@/features/auth/ui";
 
@@ -98,6 +99,10 @@ async function ExpensesContent({
         businessId={businessId}
         currency={business.currency}
         timezone={business.timezone}
+      />
+      <ExpenseVisuals
+        expenses={expenses}
+        currency={business.currency}
       />
       <ExpenseList
         businessId={businessId}
