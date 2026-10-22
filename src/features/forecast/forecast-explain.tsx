@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { AlertIcon, AssistantIcon, CheckIcon } from "@/components/icons";
+import { Markdown } from "@/components/ui/markdown";
+import { StagedLoader } from "@/components/ui/ai-loading";
 import { errorTextClass, inputClass, panelClass, panelTitleClass, primaryActionClass } from "@/features/auth/ui";
 import type { SavedForecastSnapshot } from "@/server/ai/forecast";
 
@@ -109,6 +111,16 @@ export function ForecastExplain({
         </p>
       ) : null}
 
+      {pending ? (
+        <StagedLoader
+          stages={[
+            "Aggregating sales velocity…",
+            "Calculating profit margins…",
+            "Drafting strategic advice…",
+          ]}
+        />
+      ) : null}
+
       {/* Generated text output */}
       {text ? (
         <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 sm:p-5 flex flex-col gap-2">
@@ -122,12 +134,9 @@ export function ForecastExplain({
               </span>
             ) : null}
           </div>
-          <p
-            dir={isUrdu ? "rtl" : "auto"}
-            className={`whitespace-pre-wrap text-sm leading-relaxed text-foreground mt-1 ${isUrdu ? "font-serif text-base" : ""}`}
-          >
-            {text}
-          </p>
+          <div className={`mt-1 ${isUrdu ? "font-serif text-base" : ""}`}>
+            <Markdown text={text} rtl={isUrdu} />
+          </div>
         </div>
       ) : null}
 

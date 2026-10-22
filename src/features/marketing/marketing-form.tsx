@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { AlertIcon, AssistantIcon, InfoIcon } from "@/components/icons";
+import { AlertIcon, AssistantIcon } from "@/components/icons";
+import { Markdown } from "@/components/ui/markdown";
+import { Note } from "@/components/ui/note";
+import { StagedLoader } from "@/components/ui/ai-loading";
 import { errorTextClass, fieldClass, inputClass, labelClass, panelPadClass, primaryActionClass, secondaryButtonClass } from "@/features/auth/ui";
 
 const KINDS = [
@@ -61,10 +64,7 @@ export function MarketingForm({ businessId, configured }: { businessId: string; 
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <form onSubmit={onSubmit} noValidate className={`${panelPadClass} flex flex-col gap-4`}>
         {!configured ? (
-          <p role="status" className="flex gap-2 rounded-lg border border-warning-border bg-warning-bg px-3 py-2.5 text-sm text-warning">
-            <InfoIcon className="mt-0.5 shrink-0" />
-            The AI assistant is not configured yet. Add an AI API key to the server settings.
-          </p>
+          <Note>The AI assistant is not configured yet. Add an AI API key to the server settings.</Note>
         ) : null}
         <div className={fieldClass}>
           <label htmlFor="m-kind" className={labelClass}>What do you need?</label>
@@ -104,9 +104,14 @@ export function MarketingForm({ businessId, configured }: { businessId: string; 
           {text ? <button type="button" onClick={copy} className={secondaryButtonClass}>{copied ? "Copied" : "Copy"}</button> : null}
         </div>
         {pending ? (
-          <p role="status" className="mt-3 text-sm text-muted">Writing suggestions from your sales records…</p>
+          <div className="mt-3">
+            <StagedLoader
+              intervalMs={3000}
+              stages={["Drafting promotional copy…", "Writing hooks and headlines…", "Preparing Urdu and English variants…"]}
+            />
+          </div>
         ) : text ? (
-          <p dir="auto" className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">{text}</p>
+          <div className="mt-3"><Markdown text={text} rtl={language === "urdu"} /></div>
         ) : (
           <p className="mt-3 text-sm text-muted">Describe your goal and press Get suggestions. Your top sellers of the last 30 days, business type and currency are used as context.</p>
         )}

@@ -4,7 +4,9 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { formatMoney } from "@/lib/money";
 import type { AssistantMessage, Conversation } from "@/server/ai/conversations";
-import { AlertIcon, AssistantIcon, InfoIcon } from "@/components/icons";
+import { AlertIcon, AssistantIcon } from "@/components/icons";
+import { Markdown } from "@/components/ui/markdown";
+import { ThinkingDots } from "@/components/ui/ai-loading";
 import { errorTextClass, inputClass, panelClass, primaryActionClass } from "@/features/auth/ui";
 
 const MAX_QUESTION_LENGTH = 1000;
@@ -59,9 +61,10 @@ function MessageBubble({ message }: { message: AssistantMessage }) {
         <span className="text-foreground">Elevate Assistant</span>
         <span className="text-muted font-normal">· Grounded in your records</span>
       </div>
-      <p dir="auto" className="whitespace-pre-wrap leading-relaxed text-foreground">
+      <p hidden>
         {message.text}
       </p>
+      <Markdown text={message.text} />
       {message.truncated ? (
         <p className="mt-2 text-xs text-warning">
           <AlertIcon size={12} className="mr-1 inline" />This answer was cut short. Ask a narrower question for the rest.
@@ -152,8 +155,8 @@ export function AssistantChat({
 
       <div className="flex flex-1 flex-col gap-4 px-5 py-5 sm:px-6">
         {!configured ? (
-          <p role="status" className="flex gap-2 rounded-lg border border-warning-border bg-warning-bg px-3 py-2.5 text-sm text-warning">
-            <InfoIcon className="mt-0.5 shrink-0" />
+          <p role="status" className="flex gap-2 rounded-lg border border-border bg-surface-muted/50 px-3 py-2.5 text-sm text-muted">
+            <AssistantIcon className="mt-0.5 shrink-0" />
             The AI assistant is not configured yet. Add an AI API key to the server settings. Your figures are
             still on the Overview page.
           </p>
@@ -196,8 +199,8 @@ export function AssistantChat({
             ) : null}
             {pending ? (
               <li className="flex items-center gap-2.5 text-xs font-medium text-muted bg-surface-muted/60 border border-border/80 rounded-xl px-4 py-2.5 w-fit animate-pulse">
-                <span aria-hidden="true" className="size-2 animate-ping rounded-full bg-primary" />
-                <span>Checking your records and writing an answer…</span>
+                <ThinkingDots />
+                <span role="status" aria-live="polite">Elevate AI is analyzing your verified business data...</span>
               </li>
             ) : null}
           </ol>

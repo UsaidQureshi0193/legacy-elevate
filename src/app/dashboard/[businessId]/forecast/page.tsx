@@ -12,7 +12,8 @@ import { ForecastFinancials } from "@/features/forecast/forecast-financials";
 import { ForecastSeasonality } from "@/features/forecast/forecast-seasonality";
 import { ForecastTable } from "@/features/forecast/forecast-table";
 import { ForecastExplain } from "@/features/forecast/forecast-explain";
-import { InfoIcon } from "@/components/icons";
+import { Note } from "@/components/ui/note";
+import { ForecastTabs } from "@/features/forecast/forecast-tabs";
 import { emptyStateClass } from "@/features/auth/ui";
 
 export const metadata: Metadata = { title: "Business Forecast — Elevate" };
@@ -58,42 +59,57 @@ async function ForecastContent({ params, searchParams }: { params: Params; searc
         }
       />
 
-      <div role="note" className="flex gap-2 rounded-xl border border-warning-border bg-warning-bg/60 p-3.5 text-xs text-warning shadow-xs">
-        <InfoIcon className="mt-0.5 shrink-0" size={15} />
-        <p className="leading-relaxed">
-          <span className="font-bold">Estimates, not guarantees:</span> Projections assume current operational velocity and recorded cost structures. Unrecorded overheads, unexpected supplier price fluctuations, or sudden market shifts may alter actual outcomes.
-        </p>
-      </div>
+      <Note title="Estimates, not guarantees:">
+        Projections assume current operational velocity and recorded cost structures. Unrecorded overheads or market
+        shifts may alter actual outcomes.
+      </Note>
 
       {!hasProducts ? (
         <p className={emptyStateClass}>
           No products found. Add products to your inventory and record sales transactions to generate business forecasts.
         </p>
       ) : (
-        <>
-          {/* 1. Summary KPI Cards */}
-          <ForecastKpis forecast={businessForecast} currency={business.currency} />
-
-          {/* 2. Visual Charts */}
-          <ForecastCharts forecast={businessForecast} currency={business.currency} />
-
-          {/* 3. Profit, Expenses & Cash Flow */}
-          <ForecastFinancials forecast={businessForecast} currency={business.currency} />
-
-          {/* 4. Seasonal Demand & Festival Cycles */}
-          <ForecastSeasonality seasonality={businessForecast.seasonality} horizon={horizon} />
-
-          {/* 5. Product Demand & Stock Exhaustion Table */}
-          <ForecastTable products={businessForecast.products} horizon={horizon} />
-
-          {/* 6. AI Strategic Recommendations & Saved History */}
-          <ForecastExplain
-            businessId={businessId}
-            horizon={horizon}
-            configured={getAiConfig() !== null}
-            savedSnapshots={savedSnapshots}
-          />
-        </>
+        <ForecastTabs
+          tabs={[
+            {
+              id: "overview",
+              label: "Overview & Trends",
+              content: (
+                <>
+                  <ForecastKpis forecast={businessForecast} currency={business.currency} />
+                  <ForecastCharts forecast={businessForecast} currency={business.currency} />
+                </>
+              ),
+            },
+            {
+              id: "demand",
+              label: "Product Demand & Restock",
+              content: (
+                <>
+                  <ForecastTable products={businessForecast.products} horizon={horizon} />
+                  <ForecastSeasonality seasonality={businessForecast.seasonality} horizon={horizon} />
+                </>
+              ),
+            },
+            {
+              id: "financial",
+              label: "Financial Projections",
+              content: <ForecastFinancials forecast={businessForecast} currency={business.currency} />,
+            },
+            {
+              id: "advisor",
+              label: "AI Strategic Advisor",
+              content: (
+                <ForecastExplain
+                  businessId={businessId}
+                  horizon={horizon}
+                  configured={getAiConfig() !== null}
+                  savedSnapshots={savedSnapshots}
+                />
+              ),
+            },
+          ]}
+        />
       )}
     </div>
   );

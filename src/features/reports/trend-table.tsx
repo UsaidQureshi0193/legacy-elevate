@@ -69,7 +69,7 @@ export function TrendTable({ trend, currency }: { trend: Trend; currency: string
             </div>
             <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
               <span className="rounded-full bg-surface border border-border px-3 py-1 text-xs font-semibold text-foreground shadow-xs">
-                📊 Daily Sales Trend
+                Daily sales trend
               </span>
               <p className="mt-2 text-xs text-muted max-w-xs leading-relaxed">{trend.reason}</p>
             </div>
