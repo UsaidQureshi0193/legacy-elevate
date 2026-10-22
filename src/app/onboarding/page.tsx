@@ -33,7 +33,7 @@ export default function OnboardingPage() {
   return (
     <>
       <WorkspaceHeader />
-      <main className="mx-auto flex w-full max-w-[460px] flex-1 flex-col px-4 pt-10 pb-16 sm:pt-16">
+      <main className="mx-auto flex w-full max-w-[460px] flex-1 flex-col px-4 pt-28 pb-16">
         <Suspense fallback={<p className="text-sm text-muted">Loading…</p>}>
           <OnboardingContent />
         </Suspense>

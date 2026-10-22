@@ -16,7 +16,7 @@ function initials(name: string): string {
 const item =
   "flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-sm text-muted transition-colors hover:bg-active/70 hover:text-foreground";
 
-export function UserMenu({ user, businessId }: { user: WorkspaceUser; businessId: string }) {
+export function UserMenu({ user, businessId }: { user: WorkspaceUser; businessId?: string }) {
   return (
     <Dropdown
       align="right"
@@ -38,10 +38,12 @@ export function UserMenu({ user, businessId }: { user: WorkspaceUser; businessId
             <p className="truncate text-sm font-semibold text-foreground">{user.name}</p>
             {user.email ? <p className="truncate text-xs text-muted">{user.email}</p> : null}
           </div>
-          <Link href={`/dashboard/${businessId}/security`} onClick={close} className={item}>
-            <ShieldIcon />
-            Account Security (2FA)
-          </Link>
+          {businessId ? (
+            <Link href={`/dashboard/${businessId}/security`} onClick={close} className={item}>
+              <ShieldIcon />
+              Account Security (2FA)
+            </Link>
+          ) : null}
           <Link href="/dashboard" onClick={close} className={item}>
             <SwitchIcon />
             Switch Workspace
