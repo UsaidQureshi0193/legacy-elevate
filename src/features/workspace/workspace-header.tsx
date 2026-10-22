@@ -22,7 +22,7 @@ async function HeaderAccount() {
 export function WorkspaceHeader() {
   return (
     <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full px-5 py-2 shadow-lg">
-      <Link href="/dashboard" aria-label="Elevate — all businesses">
+      <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0 translate-y-[1.5px]">
         <Logo width={100} priority />
       </Link>
       <div className="flex items-center gap-2">

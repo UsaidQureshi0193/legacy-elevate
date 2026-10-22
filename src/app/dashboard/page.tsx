@@ -74,8 +74,8 @@ async function DashboardContent() {
           </p>
         </div>
         <Link
-          href="/onboarding"
-          className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground"
+          href="/onboarding?new=true"
+          className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:brightness-105 transition"
         >
           <PlusIcon />
           Register New Business
@@ -87,10 +87,10 @@ async function DashboardContent() {
         ))}
         <li>
           <Link
-            href="/onboarding"
-            className="flex h-full min-h-48 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border p-6 text-center text-muted transition-colors hover:border-control hover:text-foreground"
+            href="/onboarding?new=true"
+            className="flex h-full min-h-48 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border p-6 text-center text-muted transition-all hover:border-primary hover:text-foreground hover:bg-surface-muted/30"
           >
-            <PlusIcon size={22} />
+            <PlusIcon size={22} className="text-primary" />
             <span className="text-sm font-semibold">Add Another Business</span>
           </Link>
         </li>

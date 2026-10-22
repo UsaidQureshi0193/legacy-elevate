@@ -37,7 +37,7 @@ export function AppShell({
 
       <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full px-3 py-2 shadow-lg sm:px-5">
         <div className="flex min-w-0 items-center gap-3">
-          <Link href="/dashboard" aria-label="Elevate — all businesses" className="shrink-0">
+          <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0 translate-y-[1.5px]">
             <Logo width={100} priority />
           </Link>
           <div className="min-w-0">{scope}</div>
