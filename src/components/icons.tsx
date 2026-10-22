@@ -151,3 +151,16 @@ export const InvoiceScanIcon = (p: IconProps) => (
     <path d="M8 9h8M8 12h8M8 15h5" />
   </Icon>
 );
+
+export const ChevronDownIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M6 9l6 6 6-6" />
+  </Icon>
+);
+
+export const ShieldIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" />
+    <path d="M9 12l2 2 4-4" />
+  </Icon>
+);

@@ -2,88 +2,103 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import {
-  AssistantIcon,
-  ExpensesIcon,
-  OverviewIcon,
-  ProductsIcon,
-  PurchasesIcon,
-  SalesIcon,
-  SuppliersIcon,
-  InvoiceScanIcon,
-} from "@/components/icons";
+import { ChevronDownIcon } from "@/components/icons";
+import { Dropdown } from "./dropdown";
+import { getNav, isActive } from "./nav-groups";
 
-/**
- * Section navigation for one business workspace (the shell's sidebar and the
- * phone menu). The active section is a neutral pill; colour stays on data.
- */
-export function BusinessNav({ onNavigate }: { onNavigate?: () => void }) {
+const linkBase =
+  "inline-flex h-10 items-center gap-1.5 rounded-full px-3.5 text-sm transition-colors";
+const idle = "text-muted hover:bg-active/70 hover:text-foreground";
+const current = "bg-active font-semibold text-foreground";
+
+function ActiveDot() {
+  return <span aria-hidden="true" className="size-2 rounded-full bg-primary ring-1 ring-black/15 dark:ring-0" />;
+}
+
+/** Desktop centre nav (≥1024px): Overview plus three hover dropdown groups. */
+export function BusinessNav() {
   const pathname = usePathname();
   const { businessId } = useParams<{ businessId: string }>();
-  const base = `/dashboard/${businessId}`;
-  const groups = [
-    {
-      label: null,
-      items: [{ href: base, label: "Overview", Icon: OverviewIcon, exact: true }],
-    },
-    {
-      label: "Records",
-      items: [
-        { href: `${base}/products`, label: "Products & stock", Icon: ProductsIcon, exact: false },
-        { href: `${base}/sales`, label: "Sales", Icon: SalesIcon, exact: false },
-        { href: `${base}/expenses`, label: "Expenses", Icon: ExpensesIcon, exact: false },
-      ],
-    },
-    {
-      label: "Buying",
-      items: [
-        { href: `${base}/invoices`, label: "Scan invoices", Icon: InvoiceScanIcon, exact: false },
-        { href: `${base}/suppliers`, label: "Suppliers", Icon: SuppliersIcon, exact: false },
-        { href: `${base}/purchases`, label: "Purchases", Icon: PurchasesIcon, exact: false },
-      ],
-    },
-    {
-      label: "Ask",
-      items: [
-        { href: `${base}/assistant`, label: "AI assistant", Icon: AssistantIcon, exact: false },
-        { href: `${base}/forecast`, label: "Forecast", Icon: OverviewIcon, exact: false },
-        { href: `${base}/marketing`, label: "Marketing", Icon: SalesIcon, exact: false },
-      ],
-    },
-    {
-      label: "Account",
-      items: [
-        { href: `${base}/security`, label: "Security", Icon: ExpensesIcon, exact: false },
-      ],
-    },
-  ];
+  const { overview, groups } = getNav(`/dashboard/${businessId}`);
 
   return (
-    <nav aria-label="Business sections" className="flex flex-col gap-5">
-      {groups.map((group) => (
-        <div key={group.label ?? "main"} className="flex flex-col gap-0.5">
-          {group.label ? (
-            <p className="px-2.5 pb-1 text-xs font-medium text-muted">{group.label}</p>
-          ) : null}
-          {group.items.map(({ href, label, Icon, exact }) => {
-            const active = exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
+    <nav aria-label="Business sections" className="flex items-center gap-1">
+      <Link
+        href={overview.href}
+        aria-current={isActive(pathname, overview) ? "page" : undefined}
+        className={`${linkBase} ${isActive(pathname, overview) ? current : idle}`}
+      >
+        {overview.label}
+      </Link>
+      {groups.map((group) => {
+        const groupActive = group.items.some((i) => isActive(pathname, i));
+        return (
+          <Dropdown
+            key={group.label}
+            label={`${group.label} menu`}
+            triggerClassName={`${linkBase} ${groupActive ? current : idle}`}
+            trigger={
+              <>
+                {group.label}
+                <ChevronDownIcon size={14} />
+              </>
+            }
+          >
+            {(close) => (
+              <ul className="flex flex-col gap-0.5">
+                {group.items.map((item) => {
+                  const active = isActive(pathname, item);
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        onClick={close}
+                        aria-current={active ? "page" : undefined}
+                        className={`flex h-10 items-center gap-2.5 rounded-xl px-3 text-sm whitespace-nowrap ${
+                          active ? current : idle
+                        }`}
+                      >
+                        <item.Icon />
+                        <span>{item.label}</span>
+                        {active ? <span className="ml-auto"><ActiveDot /></span> : null}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </Dropdown>
+        );
+      })}
+    </nav>
+  );
+}
+
+/** Flat grouped list for the hamburger menu (<1024px). */
+export function MobileNav({ onNavigate }: { onNavigate: () => void }) {
+  const pathname = usePathname();
+  const { businessId } = useParams<{ businessId: string }>();
+  const { overview, groups } = getNav(`/dashboard/${businessId}`);
+  const all = [{ label: "", items: [overview] }, ...groups];
+
+  return (
+    <nav aria-label="Business sections" className="flex flex-col gap-4">
+      {all.map((group) => (
+        <div key={group.label || "main"} className="flex flex-col gap-0.5">
+          {group.label ? <p className="px-3 pb-1 text-xs font-medium text-muted">{group.label}</p> : null}
+          {group.items.map((item) => {
+            const active = isActive(pathname, item);
             return (
               <Link
-                key={href}
-                href={href}
+                key={item.href}
+                href={item.href}
                 onClick={onNavigate}
                 aria-current={active ? "page" : undefined}
-                className={`group flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm transition-all duration-150 ${
-                  active
-                    ? "bg-active font-semibold text-foreground shadow-xs border border-border/90 dark:border-primary/50"
-                    : "text-muted hover:bg-active/60 hover:text-foreground hover:translate-x-0.5"
-                }`}
+                className={`flex h-11 items-center gap-2.5 rounded-xl px-3 text-sm ${active ? current : idle}`}
               >
-                <Icon className={active ? "text-foreground dark:text-primary" : "text-muted group-hover:text-foreground transition-colors"} />
-                <span>{label}</span>
-                {active ? (
-                  <span aria-hidden="true" className="ml-auto size-2 rounded-full bg-primary ring-1 ring-black/15 dark:ring-0 dark:shadow-[0_0_8px_var(--brand-lime)]" />
-                ) : null}
+                <item.Icon />
+                <span>{item.label}</span>
+                {active ? <span className="ml-auto"><ActiveDot /></span> : null}
               </Link>
             );
           })}

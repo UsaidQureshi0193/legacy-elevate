@@ -5,74 +5,64 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { CloseIcon, MenuIcon } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { SignOutButton } from "@/features/auth/sign-out-button";
-import { BusinessNav } from "./business-nav";
+import { BusinessNav, MobileNav } from "./business-nav";
+import { RouteProgress } from "./route-progress";
+
+const navFallback = <div aria-hidden="true" className="h-10 w-80 rounded-full bg-active/50" />;
 
 /**
- * The nav reads the URL (usePathname/useParams), which cacheComponents only
- * allows inside Suspense; the fallback keeps the nav's height so nothing shifts.
+ * Shell for one business workspace: a fixed floating pill navbar (logo,
+ * business switcher, grouped dropdown nav, theme, user menu). Below 1024px
+ * the centre nav folds into a hamburger with a full-screen menu.
+ * `scope` is the business switcher, `account` the user menu (both slots are
+ * server-rendered behind Suspense in layout.tsx).
  */
-function Nav({ onNavigate }: { onNavigate?: () => void }) {
-  return (
-    <Suspense
-      fallback={
-        <div aria-hidden="true" className="flex flex-col gap-2">
-          {Array.from({ length: 8 }, (_, i) => (
-            <div key={i} className="h-9 rounded-lg bg-active/50" />
-          ))}
-        </div>
-      }
-    >
-      <BusinessNav onNavigate={onNavigate} />
-    </Suspense>
-  );
-}
-
-function SidebarFooter() {
-  return (
-    <div className="flex flex-col gap-0.5 border-t border-border pt-3">
-      <ThemeToggle variant="row" />
-      <SignOutButton variant="row" />
-    </div>
-  );
-}
-
-/**
- * Shell for one business workspace. Desktop: a 248px sidebar on the page
- * ground (logo, business scope, sections, theme and sign-out). Below 1024px
- * the sidebar folds into a 56px top bar with a full-screen menu.
- */
-export function AppShell({ scope, children }: { scope: ReactNode; children: ReactNode }) {
+export function AppShell({
+  scope,
+  account,
+  children,
+}: {
+  scope: ReactNode;
+  account: ReactNode;
+  children: ReactNode;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const close = () => setMenuOpen(false);
 
   return (
-    <div className="flex min-h-full flex-1 flex-col lg:grid lg:grid-cols-[248px_minmax(0,1fr)]">
-      <aside className="sticky top-0 hidden h-dvh flex-col gap-5 overflow-y-auto border-r border-border bg-sidebar px-3 py-5 lg:flex">
-        <Link href="/dashboard" aria-label="Elevate — all businesses" className="px-2.5">
-          <Logo width={112} priority />
-        </Link>
-        {scope}
-        <Nav />
-        <div className="mt-auto">
-          <SidebarFooter />
-        </div>
-      </aside>
+    <div className="flex min-h-full flex-1 flex-col">
+      <Suspense fallback={null}>
+        <RouteProgress />
+      </Suspense>
 
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-background px-4 lg:hidden">
-        <Link href="/dashboard" aria-label="Elevate — all businesses">
-          <Logo width={96} priority />
-        </Link>
-        <button
-          type="button"
-          onClick={() => setMenuOpen(true)}
-          aria-expanded={menuOpen}
-          aria-controls="workspace-menu"
-          className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground"
-        >
-          <MenuIcon size={18} />
-          <span className="sr-only">Open menu</span>
-        </button>
+      <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 rounded-full px-3 py-2 shadow-lg sm:px-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/dashboard" aria-label="Elevate — all businesses" className="shrink-0">
+            <Logo width={100} priority />
+          </Link>
+          <div className="min-w-0">{scope}</div>
+        </div>
+
+        <div className="hidden lg:block">
+          <Suspense fallback={navFallback}>
+            <BusinessNav />
+          </Suspense>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <ThemeToggle />
+          <div className="hidden sm:block">{account}</div>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-expanded={menuOpen}
+            aria-controls="workspace-menu"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border text-foreground lg:hidden"
+          >
+            <MenuIcon size={18} />
+            <span className="sr-only">Open menu</span>
+          </button>
+        </div>
       </header>
 
       <div
@@ -81,54 +71,45 @@ export function AppShell({ scope, children }: { scope: ReactNode; children: Reac
         aria-modal="true"
         aria-label="Menu"
         hidden={!menuOpen}
-        className="fixed inset-0 z-40 flex-col gap-5 overflow-y-auto bg-background px-4 py-3 data-[open=true]:flex lg:hidden"
         data-open={menuOpen}
+        className="fixed inset-0 z-[60] flex-col gap-5 overflow-y-auto bg-background px-4 py-3 data-[open=true]:flex lg:hidden"
       >
         <div className="flex h-10 items-center justify-between">
-          <Logo width={96} />
+          <Logo width={100} />
           <button
             type="button"
             onClick={close}
-            className="inline-flex size-10 items-center justify-center rounded-lg border border-border"
+            className="inline-flex size-10 items-center justify-center rounded-full border border-border"
           >
             <CloseIcon size={18} />
             <span className="sr-only">Close menu</span>
           </button>
         </div>
-        {scope}
-        <Nav onNavigate={close} />
-        <SidebarFooter />
+        <Suspense fallback={navFallback}>
+          <MobileNav onNavigate={close} />
+        </Suspense>
+        <div className="mt-auto border-t border-border pt-3 sm:hidden">{account}</div>
       </div>
 
-      <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 pt-6 pb-16 sm:px-8 lg:pt-8">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-24 pb-16 sm:px-6 lg:px-8">
         {children}
       </main>
     </div>
   );
 }
 
-/** Business name and scope at the top of the sidebar, with the way back to all businesses. */
-export function BusinessScope({
-  name,
-  detail,
-}: {
-  name: string;
-  detail: string;
-}) {
+/** Business switcher badge in the navbar; links to the business list. */
+export function BusinessScope({ name, detail }: { name: string; detail: string }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-3 shadow-xs card-hover-lift">
-      <div className="flex items-center gap-2">
-        <span className="size-2 rounded-full bg-primary shadow-[0_0_8px_var(--brand-lime)]" />
-        <p className="truncate text-sm font-bold text-foreground" title={name}>
-          {name}
-        </p>
-      </div>
-      <div className="mt-1.5 flex items-center justify-between gap-2 text-xs text-muted">
-        <span className="truncate">{detail}</span>
-        <Link href="/dashboard" className="shrink-0 font-medium text-foreground hover:text-primary transition-colors">
-          Switch →
-        </Link>
-      </div>
-    </div>
+    <Link
+      href="/dashboard"
+      title="Switch business"
+      className="inline-flex h-10 max-w-44 items-center gap-2 rounded-full border border-border bg-surface px-3 text-sm text-foreground hover:bg-active/60 sm:max-w-64"
+    >
+      <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-primary ring-1 ring-black/15 dark:ring-0" />
+      <span className="truncate font-semibold">{name}</span>
+      {detail ? <span className="hidden truncate text-xs text-muted xl:inline">({detail})</span> : null}
+      <span className="sr-only">Switch business</span>
+    </Link>
   );
 }
