@@ -45,15 +45,16 @@ export async function askAssistant(
     throw new ApiError(503, "The AI assistant is not configured yet. Ask the app administrator to add an AI API key.");
   }
 
-  const existing = request.conversationId
-    ? await getConversationForOwner(business.businessId, uid, request.conversationId, db)
-    : null;
-  if (existing) assertConversationHasRoom(existing);
-
   const today = todayInTimeZone(business.timezone);
-  await consumeDailyQuestion(uid, today, config.AI_DAILY_LIMIT, db);
 
-  const context = await loadAssistantContext(business, today, db);
+  const [existing, , context] = await Promise.all([
+    request.conversationId
+      ? getConversationForOwner(business.businessId, uid, request.conversationId, db)
+      : Promise.resolve(null),
+    consumeDailyQuestion(uid, today, config.AI_DAILY_LIMIT, db),
+    loadAssistantContext(business, today, db),
+  ]);
+  if (existing) assertConversationHasRoom(existing);
   const language = detectLanguage(request.question);
   const history: ChatTurn[] = (existing?.messages ?? [])
     .slice(-HISTORY_MESSAGES)

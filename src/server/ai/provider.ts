@@ -34,9 +34,9 @@ export class AiError extends Error {
   }
 }
 
-const REQUEST_TIMEOUT_MS = 25_000;
-// Thinking models spend part of this budget on reasoning before the answer.
-const MAX_OUTPUT_TOKENS = 2048;
+const REQUEST_TIMEOUT_MS = 50_000;
+// Compact output token limit for fast chat turn responses.
+const MAX_OUTPUT_TOKENS = 1024;
 // Reading a document takes longer and returns more (up to 50 invoice lines).
 const DOCUMENT_TIMEOUT_MS = 45_000;
 const DOCUMENT_MAX_OUTPUT_TOKENS = 8192;

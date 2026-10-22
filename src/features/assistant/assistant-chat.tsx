@@ -89,6 +89,7 @@ export function AssistantChat({
   const router = useRouter();
   const [conversation, setConversation] = useState(initialConversation);
   const [question, setQuestion] = useState("");
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const messages = conversation?.messages ?? [];
@@ -102,6 +103,8 @@ export function AssistantChat({
     }
     setError(null);
     setPending(true);
+    setPendingQuestion(text);
+    setQuestion("");
     try {
       const response = await fetch(`/api/businesses/${businessId}/ai/chat`, {
         method: "POST",
@@ -120,13 +123,15 @@ export function AssistantChat({
       }
       const isNew = !conversation;
       setConversation(data.conversation);
-      setQuestion("");
+      setPendingQuestion(null);
       if (isNew) {
         router.replace(`/dashboard/${businessId}/assistant?c=${data.conversation.conversationId}`);
       }
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "The assistant could not answer. Please try again.");
+      setQuestion(text);
+      setPendingQuestion(null);
     } finally {
       setPending(false);
     }
@@ -154,7 +159,7 @@ export function AssistantChat({
           </p>
         ) : null}
 
-        {messages.length === 0 ? (
+        {messages.length === 0 && !pendingQuestion ? (
           <div className="my-auto flex flex-col items-start gap-3 py-6">
             <p className="flex items-center gap-2 text-sm font-medium">
               <AssistantIcon className="text-chart" />
@@ -180,15 +185,23 @@ export function AssistantChat({
             {messages.map((m) => (
               <MessageBubble key={m.messageId} message={m} />
             ))}
+            {pendingQuestion ? (
+              <li className="flex flex-col items-end gap-1 animate-fade-in">
+                <div className="max-w-[85%] rounded-2xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground shadow-xs sm:max-w-[75%]">
+                  <p className="whitespace-pre-wrap break-words" dir="auto">
+                    {pendingQuestion}
+                  </p>
+                </div>
+              </li>
+            ) : null}
+            {pending ? (
+              <li className="flex items-center gap-2.5 text-xs font-medium text-muted bg-surface-muted/60 border border-border/80 rounded-xl px-4 py-2.5 w-fit animate-pulse">
+                <span aria-hidden="true" className="size-2 animate-ping rounded-full bg-primary" />
+                <span>Checking your records and writing an answer…</span>
+              </li>
+            ) : null}
           </ol>
         )}
-
-        {pending ? (
-          <p role="status" className="flex items-center gap-2 text-sm text-muted">
-            <span aria-hidden="true" className="size-2 animate-pulse rounded-full bg-chart" />
-            Checking your records and writing an answer…
-          </p>
-        ) : null}
       </div>
 
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-2 border-t border-border px-5 py-4 sm:px-6">

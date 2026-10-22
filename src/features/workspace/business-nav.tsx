@@ -25,6 +25,7 @@ export function BusinessNav() {
     <nav aria-label="Business sections" className="flex items-center gap-1">
       <Link
         href={overview.href}
+        prefetch={true}
         aria-current={isActive(pathname, overview) ? "page" : undefined}
         className={`${linkBase} ${isActive(pathname, overview) ? current : idle}`}
       >
@@ -52,6 +53,7 @@ export function BusinessNav() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
+                        prefetch={true}
                         onClick={close}
                         aria-current={active ? "page" : undefined}
                         className={`flex h-10 items-center gap-2.5 rounded-xl px-3 text-sm whitespace-nowrap ${
@@ -92,6 +94,7 @@ export function MobileNav({ onNavigate }: { onNavigate: () => void }) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 onClick={onNavigate}
                 aria-current={active ? "page" : undefined}
                 className={`flex h-11 items-center gap-2.5 rounded-xl px-3 text-sm ${active ? current : idle}`}
