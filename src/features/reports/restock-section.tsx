@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckIcon } from "@/components/icons";
+import { AlertIcon, CheckIcon } from "@/components/icons";
 import type { RestockSuggestion } from "@/lib/restock";
 import { COVER_DAYS, LOOKBACK_DAYS, MIN_SALE_DAYS, formatHundredths } from "@/lib/restock";
 import { panelClass, panelTitleClass } from "@/features/auth/ui";
@@ -54,9 +54,13 @@ export function RestockSection({
                 >
                   {r.name}
                 </Link>
-                <p className="num text-xs text-warning">
-                  {r.currentStock} left · alert at {reorderLevels[r.productId] ?? "—"}
+                <p className="num mt-0.5 inline-flex items-center gap-1 rounded-full border border-border bg-surface-muted px-2 py-0.5 text-xs font-medium text-foreground">
+                  <AlertIcon size={12} className="shrink-0 text-warning" />
+                  {r.currentStock} left · reorder at {reorderLevels[r.productId] ?? "—"}
                 </p>
+                <Link href={`/dashboard/${businessId}/purchases`} className="ml-2 text-xs font-medium underline">
+                  Reorder
+                </Link>
               </div>
               {r.kind === "estimate" ? (
                 <div className="shrink-0 text-right">

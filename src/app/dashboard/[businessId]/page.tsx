@@ -53,6 +53,12 @@ async function BusinessSummary({
       <PageHeader
         title="Overview"
         description={`${finding}${stockNote}`}
+      />
+
+      <PeriodFilter
+        period={period}
+        error={error}
+        requested={{ period: one(query.period), from: one(query.from), to: one(query.to) }}
         actions={
           <>
             <Link href={`${base}/assistant`} className={secondaryButtonClass}>
@@ -65,12 +71,6 @@ async function BusinessSummary({
             </Link>
           </>
         }
-      />
-
-      <PeriodFilter
-        period={period}
-        error={error}
-        requested={{ period: one(query.period), from: one(query.from), to: one(query.to) }}
       />
       <SummaryCards summary={summary} currency={business.currency} />
 

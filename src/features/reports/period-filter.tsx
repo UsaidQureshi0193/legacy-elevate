@@ -26,10 +26,12 @@ export function PeriodFilter({
   period,
   error,
   requested,
+  actions,
 }: {
   period: Period;
   error: string | null;
   requested: { period?: string; from?: string; to?: string };
+  actions?: React.ReactNode;
 }) {
   const customOpen = period.preset === "custom" || requested.period === "custom";
 
@@ -45,7 +47,7 @@ export function PeriodFilter({
                 href={`?period=${p.value}`}
                 aria-current={active ? "page" : undefined}
                 className={`h-8 rounded-md px-3 text-sm leading-8 transition ${
-                  active ? "bg-surface font-medium text-foreground shadow-[0_0_0_1px_var(--border)]" : "text-muted hover:text-foreground"
+                  active ? "border border-border bg-surface font-semibold text-foreground shadow-xs" : "text-muted hover:text-foreground"
                 }`}
               >
                 {p.label}
@@ -63,6 +65,7 @@ export function PeriodFilter({
         <p className="num text-sm text-muted">
           {readable(period.from)} – {readable(period.to)} · {period.days} {period.days === 1 ? "day" : "days"}
         </p>
+        {actions ? <div className="flex flex-wrap items-center gap-2 sm:ml-auto">{actions}</div> : null}
       </div>
 
       <details open={customOpen} className="group text-sm">

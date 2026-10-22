@@ -92,6 +92,17 @@ export function SummaryCards({ summary, currency }: { summary: PeriodSummary; cu
               {s.value}
             </p>
             <p className="mt-1 text-xs text-muted leading-relaxed">{s.hint}</p>
+            {s.lead ? (
+              s.negative ? (
+                <span className="mt-2 inline-flex items-center gap-1 rounded-full border border-border bg-surface px-2 py-0.5 text-[11px] font-semibold text-foreground">
+                  <AlertIcon size={12} /> Loss for this period
+                </span>
+              ) : (
+                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-2 py-0.5 text-[11px] font-semibold text-foreground">
+                  <span aria-hidden="true" className="size-1.5 rounded-full bg-success" /> Positive
+                </span>
+              )
+            ) : null}
           </li>
         ))}
       </ol>
@@ -110,12 +121,10 @@ export function SummaryCards({ summary, currency }: { summary: PeriodSummary; cu
             ))}
           </ul>
         </div>
-      ) : (
-        <p className="flex items-center gap-1.5 text-xs text-muted">
-          <InfoIcon size={13} className="shrink-0 text-primary" />
-          No data gaps found. Net profit is an estimate based on your recorded expenses.
-        </p>
-      )}
+      ) : null}
+      <p className="text-center text-[11px] text-muted/70">
+        Net profit is an estimate based on recorded expenses only.
+      </p>
     </section>
   );
 }

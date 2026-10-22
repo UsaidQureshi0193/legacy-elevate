@@ -93,8 +93,12 @@ function TrendChart({ trend, currency }: { trend: Extract<Trend, { kind: "ok" }>
 
   return (
     <>
-      <p className="mt-1 text-sm text-muted">
-        Best {trend.granularity}: <span className="font-medium text-foreground">{bucketLabel(best, trend.granularity)}</span>{" "}
+      <p className="num mt-1 text-sm text-muted">
+        {trend.granularity === "day" ? "Daily" : "Weekly"} average:{" "}
+        <span className="font-medium text-foreground">
+          {formatMoney(Math.round(totalRevenue / buckets.length), currency)}
+        </span>
+        {" · "}Best {trend.granularity}: <span className="font-medium text-foreground">{bucketLabel(best, trend.granularity)}</span>{" "}
         at <span className="num font-medium text-foreground">{formatMoney(best.revenue, currency)}</span>
       </p>
 
@@ -122,6 +126,9 @@ function TrendChart({ trend, currency }: { trend: Extract<Trend, { kind: "ok" }>
                 className="group relative flex h-full flex-1 items-end"
                 title={`${b.from === b.to ? b.from : `${b.from} – ${b.to}`}: ${formatMoney(b.revenue, currency)} · ${b.saleCount} sale${b.saleCount === 1 ? "" : "s"}`}
               >
+                <span className="num pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-surface px-2 py-1 text-[11px] text-foreground shadow-float group-hover:block">
+                  {b.from}: {formatMoney(b.revenue, currency)}
+                </span>
                 {b.revenue > 0 ? (
                   <div
                     className="w-full rounded-t-[3px] bg-chart transition group-hover:opacity-80"
