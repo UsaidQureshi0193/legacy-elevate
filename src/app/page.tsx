@@ -257,10 +257,82 @@ function TrustMetrics() {
   );
 }
 
+/** 3-Step "How It Works" journey */
+function HowItWorks() {
+  const steps = [
+    {
+      num: "01",
+      title: "Snap or Upload Invoices",
+      desc: "Upload paper wholesale receipts or PDFs. Gemini Vision OCR extracts the supplier, item breakdown, unit prices, and quantities automatically.",
+      badge: "Gemini Vision OCR",
+      icon: InvoiceScanIcon,
+    },
+    {
+      num: "02",
+      title: "Record Daily Sales & Stock",
+      desc: "Counter sales instantly deduct inventory in real time. Pure deterministic math calculates gross profit and net margin down to the exact paisa.",
+      badge: "Paisa-Exact Math",
+      icon: SalesIcon,
+    },
+    {
+      num: "03",
+      title: "Ask Your Urdu AI Co-Pilot",
+      desc: "Ask questions in English, Urdu, or Roman Urdu about your stockouts, cash flow, and supplier price trends. All answers are grounded strictly in your verified records.",
+      badge: "Grounded Urdu AI",
+      icon: AssistantIcon,
+    },
+  ];
+
+  return (
+    <section id="how-it-works" aria-labelledby="how-it-works-heading" className="py-16 sm:py-24 border-t border-border scroll-mt-24">
+      <div className="flex flex-col gap-3 text-center items-center">
+        <span className={eyebrow}>Seamless Retail Flow</span>
+        <h2 id="how-it-works-heading" className={h2}>
+          How Elevate Works For Your Shop
+        </h2>
+        <p className={lead}>
+          From loose counter paper receipts to real-time inventory and profit intelligence in 3 steps.
+        </p>
+      </div>
+
+      <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        {steps.map((s) => {
+          const Icon = s.icon;
+          return (
+            <div
+              key={s.num}
+              className="card-hover-lift relative flex flex-col justify-between rounded-2xl border border-border bg-surface p-6 sm:p-7 shadow-xs overflow-hidden"
+            >
+              <span className="pointer-events-none absolute -right-2 -bottom-4 text-7xl font-black text-foreground/5 select-none font-mono">
+                {s.num}
+              </span>
+              <div>
+                <div className="flex items-center justify-between border-b border-rule pb-4">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-surface-muted text-primary border border-border shadow-2xs">
+                    <Icon size={20} />
+                  </span>
+                  <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-foreground">
+                    {s.badge}
+                  </span>
+                </div>
+                <div className="mt-5">
+                  <span className="font-mono text-xs font-bold text-primary tracking-wider uppercase">Step {s.num}</span>
+                  <h3 className="mt-1 text-lg font-bold text-foreground">{s.title}</h3>
+                  <p className="mt-2 text-sm text-muted leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 /** Bento-Grid section showcasing core 6 power capabilities */
 function BentoFeatures() {
   return (
-    <section id="features" aria-labelledby="features-heading" className="py-16 sm:py-24 border-t border-border">
+    <section id="features" aria-labelledby="features-heading" className="py-16 sm:py-24 border-t border-border scroll-mt-24">
       <div className="flex flex-col gap-3 text-center items-center">
         <span className={eyebrow}>Engineered for Retailers</span>
         <h2 id="features-heading" className={h2}>
@@ -403,7 +475,7 @@ function BentoFeatures() {
         </div>
 
         {/* Block 6: Bank-Grade Free 2FA Security */}
-        <div className="card-hover-lift rounded-2xl border border-border bg-surface p-6 shadow-xs sm:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div id="security" className="card-hover-lift rounded-2xl border border-border bg-surface p-6 shadow-xs sm:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center justify-between gap-6 scroll-mt-24">
           <div>
             <div className="flex items-center gap-2">
               <span className="flex size-8 items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30">
@@ -432,7 +504,7 @@ function BentoFeatures() {
 /** Urdu AI Assistant Interactive Showcase */
 function AssistantShowcase() {
   return (
-    <section id="assistant" aria-labelledby="urdu-ai" className="py-16 sm:py-24 border-t border-border">
+    <section id="assistant" aria-labelledby="urdu-ai" className="py-16 sm:py-24 border-t border-border scroll-mt-24">
       <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
         <div className="flex flex-col gap-4 lg:col-span-6">
           <span className={eyebrow}>Apni Zuban Mein Baat Karein</span>
@@ -534,11 +606,17 @@ function FinalCta() {
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden text-foreground">
+      {/* Decorative ambient gradient orbs */}
+      <div aria-hidden="true" className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 size-[700px] rounded-full bg-primary/10 blur-[140px] -z-10" />
+      <div aria-hidden="true" className="pointer-events-none absolute top-1/3 -left-48 size-[500px] rounded-full bg-primary/[0.06] blur-[120px] -z-10" />
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-1/4 -right-48 size-[600px] rounded-full bg-primary/[0.07] blur-[130px] -z-10" />
+
       <FloatingHeader />
       <main className={`${wrap} flex flex-1 flex-col`}>
         <Hero />
         <TrustMetrics />
+        <HowItWorks />
         <BentoFeatures />
         <AssistantShowcase />
         <FinalCta />
