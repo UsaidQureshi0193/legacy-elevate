@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Nastaliq_Urdu } from "next/font/google";
 import { THEME_INIT_SCRIPT } from "@/components/theme/theme-script";
+import { AmbientGlow } from "@/components/brand/ambient-glow";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,7 +38,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans relative">
+        <AmbientGlow />
+        {children}
+      </body>
     </html>
   );
 }

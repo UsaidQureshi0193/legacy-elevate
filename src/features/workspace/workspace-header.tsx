@@ -21,7 +21,7 @@ async function HeaderAccount() {
 /** Floating pill header for signed-in pages outside a business. */
 export function WorkspaceHeader() {
   return (
-    <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full px-5 py-2 shadow-lg">
+    <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 rounded-full px-4 py-2 shadow-lg sm:px-6">
       <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0 translate-y-[1.5px]">
         <Logo width={100} priority />
       </Link>

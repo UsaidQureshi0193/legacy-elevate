@@ -36,45 +36,43 @@ const eyebrow = "text-xs font-bold tracking-wider uppercase text-primary";
 const h2 = "text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground";
 const lead = "max-w-[60ch] text-base text-muted sm:text-lg leading-relaxed";
 
-/** Floating glass pill navbar inspired by modern high-end AI platforms */
+/** Floating glass pill navbar with consistent max-w-7xl width matching workspace */
 function FloatingHeader() {
   return (
-    <header className="fixed top-4 inset-x-4 z-50 mx-auto max-w-5xl">
-      <div className="floating-nav flex h-14 items-center justify-between gap-4 rounded-full px-5 py-2 shadow-lg backdrop-blur-2xl">
-        <Link href="/" aria-label="Elevate Home" className="flex items-center">
-          <Logo width={105} priority />
+    <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 rounded-full px-4 sm:px-6 shadow-lg backdrop-blur-2xl">
+      <Link href="/" aria-label="Elevate Home" className="flex items-center">
+        <Logo width={105} priority />
+      </Link>
+
+      <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-muted">
+        <a href="#how-it-works" className="transition-colors hover:text-foreground">
+          How It Works
+        </a>
+        <a href="#features" className="transition-colors hover:text-foreground">
+          Features
+        </a>
+        <a href="#assistant" className="transition-colors hover:text-foreground">
+          Urdu AI
+        </a>
+        <a href="#security" className="transition-colors hover:text-foreground">
+          2FA Security
+        </a>
+      </nav>
+
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <Link
+          href="/sign-in"
+          className="inline-flex h-9 items-center rounded-full px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-surface-muted sm:text-sm"
+        >
+          Sign in
         </Link>
-
-        <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-muted">
-          <a href="#features" className="transition-colors hover:text-foreground">
-            Features
-          </a>
-          <a href="#how-it-works" className="transition-colors hover:text-foreground">
-            How It Works
-          </a>
-          <a href="#assistant" className="transition-colors hover:text-foreground">
-            Urdu AI
-          </a>
-          <a href="#security" className="transition-colors hover:text-foreground">
-            2FA Security
-          </a>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Link
-            href="/sign-in"
-            className="inline-flex h-9 items-center rounded-full px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-surface-muted sm:text-sm"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/sign-up"
-            className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:brightness-105 hover:scale-[1.02] sm:text-sm"
-          >
-            Get Started
-          </Link>
-        </div>
+        <Link
+          href="/sign-up"
+          className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:brightness-105 hover:scale-[1.02] sm:text-sm"
+        >
+          Get Started
+        </Link>
       </div>
     </header>
   );
@@ -474,28 +472,6 @@ function BentoFeatures() {
           </div>
         </div>
 
-        {/* Block 6: Bank-Grade Free 2FA Security */}
-        <div id="security" className="card-hover-lift rounded-2xl border border-border bg-surface p-6 shadow-xs sm:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center justify-between gap-6 scroll-mt-24">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30">
-                <CheckIcon size={16} />
-              </span>
-              <span className="text-xs font-bold tracking-wider uppercase text-primary">
-                Hackathon M3 Compliant
-              </span>
-            </div>
-            <h3 className="mt-2 text-xl font-bold text-foreground">
-              100% Free Two-Factor Authentication (Google Authenticator)
-            </h3>
-            <p className="mt-1 text-sm text-muted max-w-2xl leading-relaxed">
-              Real possession-factor security using standard RFC 6238 TOTP. Scan the QR code with Google Authenticator or Microsoft Authenticator. Zero paid upgrades, zero credit cards, encrypted with AES-256-GCM.
-            </p>
-          </div>
-          <Link href="/sign-up" className={`${ctaPrimary} shrink-0`}>
-            Secure Your Shop Now
-          </Link>
-        </div>
       </div>
     </section>
   );
@@ -579,6 +555,53 @@ function AssistantShowcase() {
   );
 }
 
+/** Bank-Grade Free 2FA Security Showcase */
+function SecurityShowcase() {
+  return (
+    <section id="security" aria-labelledby="security-heading" className="py-16 sm:py-24 border-t border-border scroll-mt-24">
+      <div className="card-hover-lift relative overflow-hidden rounded-3xl border border-primary/30 bg-surface p-8 sm:p-12 shadow-sm">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30">
+                <CheckIcon size={16} />
+              </span>
+              <span className={eyebrow}>
+                Hackathon M3 Compliant · 100% Free
+              </span>
+            </div>
+            <h2 id="security-heading" className="mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl text-foreground">
+              Bank-Grade Two-Factor Authentication (2FA)
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
+              Real possession-factor security using standard RFC 6238 TOTP. Compatible with Google Authenticator, Microsoft Authenticator, and 1Password. Zero paid Firebase Identity upgrades, zero credit cards, with encrypted secret keys at rest using AES-256-GCM.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3 text-xs">
+              <span className="rounded-full border border-rule bg-surface-muted px-3 py-1 font-medium text-foreground">
+                🔒 AES-256-GCM Encryption
+              </span>
+              <span className="rounded-full border border-rule bg-surface-muted px-3 py-1 font-medium text-foreground">
+                📱 Google &amp; Microsoft Authenticator
+              </span>
+              <span className="rounded-full border border-rule bg-surface-muted px-3 py-1 font-medium text-foreground">
+                ⚡ Deterministic Verification
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+            <Link href="/sign-up" className={ctaPrimary}>
+              Secure Your Shop Now <ArrowRightIcon size={16} />
+            </Link>
+            <Link href="/sign-in" className={ctaSecondary}>
+              Sign In With 2FA
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /** Final conversion callout */
 function FinalCta() {
   return (
@@ -619,6 +642,7 @@ export default function Home() {
         <HowItWorks />
         <BentoFeatures />
         <AssistantShowcase />
+        <SecurityShowcase />
         <FinalCta />
       </main>
       <footer className={`${wrap} border-t border-border py-10 text-xs text-muted flex flex-col sm:flex-row items-center justify-between gap-4`}>

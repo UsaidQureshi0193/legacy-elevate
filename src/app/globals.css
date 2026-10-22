@@ -207,6 +207,54 @@ body {
   }
 }
 
+@keyframes auroraPulse1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate(35px, -25px) scale(1.15);
+    opacity: 0.95;
+  }
+}
+
+@keyframes auroraPulse2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-30px, 30px) scale(1.18);
+    opacity: 0.85;
+  }
+}
+
+@keyframes auroraPulse3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(25px, 35px) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.animate-aurora-1 {
+  animation: auroraPulse1 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-aurora-2 {
+  animation: auroraPulse2 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-aurora-3 {
+  animation: auroraPulse3 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 .animate-fade-in {
   animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
