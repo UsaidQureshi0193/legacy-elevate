@@ -78,7 +78,7 @@ export function SummaryCards({ summary, currency }: { summary: PeriodSummary; cu
               {s.lead ? (
                 <span
                   aria-hidden="true"
-                  className="size-2 rounded-full bg-primary shadow-[0_0_8px_var(--brand-lime)] animate-pulse"
+                  className="size-2 rounded-full bg-primary ring-1 ring-black/15 dark:ring-0 dark:shadow-[0_0_8px_var(--brand-lime)] animate-pulse"
                 />
               ) : null}
               {s.op ? <span className="sr-only">{s.op === "−" ? "minus" : "equals"} </span> : null}

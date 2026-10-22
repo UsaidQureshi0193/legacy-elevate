@@ -42,6 +42,16 @@
   --chart: #588000;
   --chart-muted: #d5dbcf;
 
+  /* Primary text and icon accents:
+   * In light theme, electric lime (#c6ff00) has only 1.26:1 contrast against white surfaces.
+   * --primary-text is calibrated to a rich, botanical deep green (#284e00) with 7.8:1 WCAG AAA
+   * contrast against white and soft-white, making text, icons and badges crystal clear.
+   */
+  --primary-text: #284e00;
+  --primary-icon: #284e00;
+  --primary-dot: #284e00;
+  --primary-badge-bg: rgba(40, 78, 0, 0.08);
+
   /* Status: always pair with text or an icon, never color alone. */
   --success: #1e7046;
   --success-bg: #e3f7e9;
@@ -69,6 +79,10 @@
     --border: #222820;
     --rule: #1a1e18;
     --control: #3a4236;
+    --primary-text: var(--brand-lime);
+    --primary-icon: var(--brand-lime);
+    --primary-dot: var(--brand-lime);
+    --primary-badge-bg: rgba(198, 255, 0, 0.12);
     --ink-button: #f4f7f0;
     --ink-button-foreground: var(--brand-graphite);
     --focus-ring: var(--brand-lime);
@@ -99,6 +113,10 @@
   --border: #222820;
   --rule: #1a1e18;
   --control: #3a4236;
+  --primary-text: var(--brand-lime);
+  --primary-icon: var(--brand-lime);
+  --primary-dot: var(--brand-lime);
+  --primary-badge-bg: rgba(198, 255, 0, 0.12);
   --ink-button: #f4f7f0;
   --ink-button-foreground: var(--brand-graphite);
   --focus-ring: var(--brand-lime);
@@ -152,21 +170,63 @@
 
 body {
   background-color: var(--background);
-  background-image: 
-    radial-gradient(ellipse 75% 45% at 50% -12%, rgba(198, 255, 0, 0.07), transparent 70%),
-    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(198, 255, 0, 0.035), transparent 60%);
-  background-attachment: fixed;
   color: var(--foreground);
   overflow-x: hidden;
 }
 
 :root[data-theme="dark"] body {
   background-color: var(--background);
-  background-image: 
-    radial-gradient(ellipse 85% 50% at 50% -15%, rgba(198, 255, 0, 0.08), transparent 70%),
-    radial-gradient(ellipse 55% 55% at 95% 90%, rgba(198, 255, 0, 0.045), transparent 60%),
-    radial-gradient(circle at 5% 50%, rgba(198, 255, 0, 0.03), transparent 50%);
-  background-attachment: fixed;
+}
+
+/* Ensure text-primary and icons meet WCAG AA contrast in light theme while glowing in dark theme */
+.text-primary {
+  color: var(--primary-text) !important;
+}
+
+svg.text-primary,
+.text-primary > svg {
+  color: var(--primary-icon) !important;
+}
+
+/* Badges with primary tint */
+:root:not([data-theme="dark"]) .bg-primary\/10 {
+  background-color: var(--primary-badge-bg) !important;
+}
+
+:root:not([data-theme="dark"]) .bg-primary\/20 {
+  background-color: rgba(40, 78, 0, 0.12) !important;
+}
+
+:root:not([data-theme="dark"]) .border-primary\/20 {
+  border-color: rgba(40, 78, 0, 0.20) !important;
+}
+
+:root:not([data-theme="dark"]) .border-primary\/30 {
+  border-color: rgba(40, 78, 0, 0.28) !important;
+}
+
+:root:not([data-theme="dark"]) .border-primary\/40 {
+  border-color: rgba(40, 78, 0, 0.36) !important;
+}
+
+:root:not([data-theme="dark"]) .border-primary\/60 {
+  border-color: rgba(40, 78, 0, 0.48) !important;
+}
+
+/* Small status dots using bg-primary */
+:root:not([data-theme="dark"]) .size-2.rounded-full.bg-primary,
+:root:not([data-theme="dark"]) .size-1\.5.rounded-full.bg-primary {
+  background-color: var(--primary-dot) !important;
+}
+
+/* Primary Action Buttons: always keep signature Elevate Electric Lime with dark text in both themes */
+button.bg-primary,
+a.bg-primary,
+.btn-primary,
+.bg-primary.text-primary-foreground,
+[role="button"].bg-primary {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
 }
 
 /* Authentic Urdu Nastaliq Typography */

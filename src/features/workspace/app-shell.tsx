@@ -31,13 +31,6 @@ export function AppShell({
 
   return (
     <div className="relative flex min-h-full flex-1 flex-col overflow-x-hidden">
-      {/* Subtle ambient decorative glow */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 size-[700px] rounded-full bg-primary/[0.08] blur-[140px]" />
-        <div className="absolute top-1/2 -right-48 size-[500px] rounded-full bg-primary/[0.05] blur-[120px]" />
-        <div className="absolute -bottom-32 -left-48 size-[500px] rounded-full bg-primary/[0.04] blur-[130px]" />
-      </div>
-
       <Suspense fallback={null}>
         <RouteProgress />
       </Suspense>

@@ -630,11 +630,6 @@ function FinalCta() {
 export default function Home() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden text-foreground">
-      {/* Decorative ambient gradient orbs */}
-      <div aria-hidden="true" className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 size-[700px] rounded-full bg-primary/10 blur-[140px] -z-10" />
-      <div aria-hidden="true" className="pointer-events-none absolute top-1/3 -left-48 size-[500px] rounded-full bg-primary/[0.06] blur-[120px] -z-10" />
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-1/4 -right-48 size-[600px] rounded-full bg-primary/[0.07] blur-[130px] -z-10" />
-
       <FloatingHeader />
       <main className={`${wrap} flex flex-1 flex-col`}>
         <Hero />
