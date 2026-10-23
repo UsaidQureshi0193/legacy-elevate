@@ -3,15 +3,11 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import {
-  AlertIcon,
   ArrowRightIcon,
   AssistantIcon,
   CheckIcon,
-  ExpensesIcon,
-  InfoIcon,
   InvoiceScanIcon,
   ProductsIcon,
-  PurchasesIcon,
   SalesIcon,
   SuppliersIcon,
 } from "@/components/icons";

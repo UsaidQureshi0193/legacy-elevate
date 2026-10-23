@@ -11,12 +11,14 @@ import { usePathname, useSearchParams } from "next/navigation";
 export function RouteProgress() {
   const pathname = usePathname();
   const search = useSearchParams().toString();
-  const [loading, setLoading] = useState(false);
   const key = `${pathname}?${search}`;
+  const [loading, setLoading] = useState(false);
+  const [prevKey, setPrevKey] = useState(key);
 
-  useEffect(() => {
+  if (prevKey !== key) {
+    setPrevKey(key);
     setLoading(false);
-  }, [key]);
+  }
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

@@ -4,7 +4,6 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatMoney, minorToDecimalString } from "@/lib/money";
-import { AlertIcon } from "@/components/icons";
 import { emptyStateClass, errorTextClass, inputClass, panelClass } from "@/features/auth/ui";
 
 export type ProductRow = {
@@ -17,10 +16,6 @@ export type ProductRow = {
   reorderLevel: number | null;
 };
 
-const cellClass = "px-4 py-3 text-left align-middle";
-const numClass = "px-4 py-3 text-right align-middle";
-const headClass = "px-4 py-2.5 text-left font-normal";
-const numHeadClass = "px-4 py-2.5 text-right font-normal";
 const editInputClass = `${inputClass} w-28`;
 
 function isLow(p: ProductRow): boolean {

@@ -8,7 +8,7 @@ import { formatMoney } from "@/lib/money";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
 import { SaleForm } from "@/features/sales/sale-form";
 import { SalesVisuals } from "@/features/sales/sales-visuals";
-import { emptyStateClass, panelClass, panelTitleClass, secondaryButtonClass } from "@/features/auth/ui";
+import { emptyStateClass, panelClass, secondaryButtonClass } from "@/features/auth/ui";
 
 export const metadata: Metadata = { title: "Sales — Elevate" };
 

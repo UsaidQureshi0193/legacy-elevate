@@ -17,7 +17,6 @@ import {
   mutedLinkClass,
   primaryButtonClass,
   secondaryButtonClass,
-  successTextClass,
 } from "./ui";
 
 export function SignUpForm() {

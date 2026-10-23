@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 const CLOSE_DELAY_MS = 160;
 
@@ -37,19 +37,22 @@ export function Dropdown({
     cancel();
     timer.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS);
   };
-  const close = () => {
-    cancel();
+  const close = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = null;
+      return;
+    }
     const onDown = (e: PointerEvent) => {
       if (root.current && !root.current.contains(e.target as Node)) close();
     };
     document.addEventListener("pointerdown", onDown);
     return () => document.removeEventListener("pointerdown", onDown);
-  }, [open]);
+  }, [open, close]);
 
   useEffect(() => cancel, []);
 

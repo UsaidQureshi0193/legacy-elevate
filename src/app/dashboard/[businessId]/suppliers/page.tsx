@@ -5,7 +5,7 @@ import { requirePageBusiness } from "@/server/page-guards";
 import { listSuppliersForBusiness } from "@/server/suppliers";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
 import { SupplierForm } from "@/features/suppliers/supplier-form";
-import { emptyStateClass, panelClass, panelTitleClass } from "@/features/auth/ui";
+import { emptyStateClass, panelClass } from "@/features/auth/ui";
 
 export const metadata: Metadata = { title: "Suppliers — Elevate" };
 
