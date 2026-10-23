@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { ChevronDownIcon } from "@/components/icons";
+import { ChevronDownIcon, ShieldIcon } from "@/components/icons";
 import { Dropdown } from "./dropdown";
 import { getNav, isActive } from "./nav-groups";
 
@@ -107,6 +107,25 @@ export function MobileNav({ onNavigate }: { onNavigate: () => void }) {
           })}
         </div>
       ))}
+      <div className="mt-2 border-t border-border pt-2">
+        <Link
+          href={`/dashboard/${businessId}/security`}
+          prefetch={true}
+          onClick={onNavigate}
+          aria-current={pathname.endsWith("/security") ? "page" : undefined}
+          className={`flex h-11 items-center gap-2.5 rounded-xl px-3 text-sm ${
+            pathname.endsWith("/security") ? current : idle
+          }`}
+        >
+          <ShieldIcon />
+          <span>Account Security (2FA)</span>
+          {pathname.endsWith("/security") ? (
+            <span className="ml-auto">
+              <ActiveDot />
+            </span>
+          ) : null}
+        </Link>
+      </div>
     </nav>
   );
 }
