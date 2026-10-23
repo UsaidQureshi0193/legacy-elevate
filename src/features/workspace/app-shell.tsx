@@ -35,10 +35,10 @@ export function AppShell({
         <RouteProgress />
       </Suspense>
 
-      <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 shadow-lg sm:px-6">
+      <header className="floating-nav fixed inset-x-4 top-4 sm:top-5 z-50 mx-auto flex h-16 max-w-[1360px] items-center justify-between gap-3 rounded-full px-5 py-2.5 shadow-xl sm:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0 translate-y-[1.5px]">
-            <Logo width={100} priority />
+            <Logo width={112} priority />
           </Link>
           <div className="min-w-0">{scope}</div>
         </div>
@@ -91,7 +91,7 @@ export function AppShell({
         <div className="mt-auto border-t border-border pt-3 sm:hidden">{account}</div>
       </div>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 pt-24 pb-16 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-[1360px] flex-1 px-4 pt-28 pb-16 sm:px-6 lg:px-8">
         {children}
       </main>
     </div>

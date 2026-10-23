@@ -39,12 +39,12 @@ const lead = "max-w-[60ch] text-base text-muted sm:text-lg leading-relaxed";
 /** Floating glass pill navbar with consistent max-w-7xl width matching workspace */
 function FloatingHeader() {
   return (
-    <header className="floating-nav fixed inset-x-4 top-4 z-50 mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 rounded-full px-4 sm:px-6 shadow-lg backdrop-blur-2xl">
+    <header className="floating-nav fixed inset-x-4 top-4 sm:top-5 z-50 mx-auto flex h-16 max-w-[1360px] items-center justify-between gap-4 rounded-full px-5 sm:px-8 shadow-xl backdrop-blur-2xl">
       <Link href="/" aria-label="Elevate Home" className="flex items-center">
-        <Logo width={105} priority />
+        <Logo width={118} priority />
       </Link>
 
-      <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-muted">
+      <nav className="hidden items-center gap-8 md:flex text-sm sm:text-[15px] font-medium text-muted">
         <a href="#how-it-works" className="transition-colors hover:text-foreground">
           How It Works
         </a>
@@ -59,17 +59,17 @@ function FloatingHeader() {
         </a>
       </nav>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2.5">
         <ThemeToggle />
         <Link
           href="/sign-in"
-          className="inline-flex h-9 items-center rounded-full px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-surface-muted sm:text-sm"
+          className="inline-flex h-10 items-center rounded-full px-4 text-xs font-semibold text-foreground transition-colors hover:bg-surface-muted sm:text-sm"
         >
           Sign in
         </Link>
         <Link
           href="/sign-up"
-          className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:brightness-105 hover:scale-[1.02] sm:text-sm"
+          className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-5 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:brightness-105 hover:scale-[1.02] sm:text-sm"
         >
           Get Started
         </Link>
