@@ -21,13 +21,13 @@ async function HeaderAccount() {
 /** Floating pill header for signed-in pages outside a business. */
 export function WorkspaceHeader() {
   return (
-    <header className="floating-nav fixed inset-x-4 top-4 sm:top-5 z-50 mx-auto flex h-16 max-w-[1360px] items-center justify-between gap-4 rounded-full px-5 py-2.5 shadow-xl sm:px-8">
-      <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0 translate-y-[1.5px]">
-        <Logo width={112} priority />
+    <header className="floating-nav fixed inset-x-3 sm:inset-x-5 top-3 sm:top-5 z-50 mx-auto flex h-14 sm:h-16 max-w-[1360px] items-center justify-between gap-2 sm:gap-4 rounded-full px-3.5 sm:px-8 shadow-xl">
+      <Link href="/dashboard" aria-label="Elevate — all businesses" className="flex items-center shrink-0">
+        <Logo width={92} priority className="sm:w-[112px]" />
       </Link>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         <ThemeToggle />
-        <Suspense fallback={<div aria-hidden="true" className="size-10 rounded-full bg-active/50" />}>
+        <Suspense fallback={<div aria-hidden="true" className="size-9 sm:size-10 rounded-full bg-active/50" />}>
           <HeaderAccount />
         </Suspense>
       </div>

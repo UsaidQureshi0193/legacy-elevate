@@ -103,7 +103,7 @@ export default function DashboardPage() {
   return (
     <>
       <WorkspaceHeader />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-28 pb-16 sm:px-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-22 sm:pt-28 pb-16 sm:px-6">
         <Suspense fallback={<PageSkeleton />}>
           <DashboardContent />
         </Suspense>

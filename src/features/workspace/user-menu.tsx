@@ -21,14 +21,14 @@ export function UserMenu({ user, businessId }: { user: WorkspaceUser; businessId
     <Dropdown
       align="right"
       label="Account menu"
-      triggerClassName="inline-flex h-10 items-center gap-2 rounded-full border border-border bg-surface pl-1 pr-2.5 text-sm font-medium text-foreground hover:bg-active/60"
+      triggerClassName="inline-flex h-8 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-full border border-border bg-surface pl-1 pr-2 sm:pr-2.5 text-xs sm:text-sm font-medium text-foreground hover:bg-active/60"
       trigger={
         <>
-          <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+          <span className="inline-flex size-6 sm:size-8 items-center justify-center rounded-full bg-primary text-[10px] sm:text-xs font-bold text-primary-foreground">
             {initials(user.name)}
           </span>
           <span className="hidden max-w-28 truncate sm:inline">{user.name}</span>
-          <ChevronDownIcon size={14} />
+          <ChevronDownIcon size={12} className="sm:size-3.5" />
         </>
       }
     >
