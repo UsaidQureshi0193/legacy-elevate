@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type DragEvent } from "react";
+import { useState, useRef, type DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AlertIcon, SalesIcon } from "@/components/icons";
 import { INVOICE_MIME_TYPES, MAX_INVOICE_BYTES } from "@/lib/invoices";
@@ -27,6 +27,16 @@ export function InvoiceUpload({
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  function cancelUpload() {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setPending(false);
+    setError(null);
+  }
 
   function choose(next: File | null) {
     setError(null);
@@ -52,17 +62,31 @@ export function InvoiceUpload({
     if (!file) return;
     setError(null);
     setPending(true);
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
       const body = new FormData();
       body.append("file", file);
       body.append("invoiceType", selectedType);
-      const response = await fetch(`/api/businesses/${businessId}/invoices`, { method: "POST", body });
+      const response = await fetch(`/api/businesses/${businessId}/invoices`, {
+        method: "POST",
+        body,
+        signal: controller.signal,
+      });
       const data = (await response.json().catch(() => null)) as { invoice?: { invoiceId: string }; error?: string } | null;
       if (!response.ok || !data?.invoice) throw new Error(data?.error ?? "Could not read this document. Please try again.");
       router.push(`/dashboard/${businessId}/invoices/${data.invoice.invoiceId}`);
     } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        setPending(false);
+        return;
+      }
       setError(err instanceof Error ? err.message : "Could not read this document. Please try again.");
       setPending(false);
+    } finally {
+      abortControllerRef.current = null;
     }
   }
 
@@ -161,16 +185,44 @@ export function InvoiceUpload({
           disabled={!file || pending || !configured}
           className={`${primaryActionClass} h-10 disabled:cursor-not-allowed disabled:opacity-60`}
         >
-          {pending ? "Reading document…" : selectedType === "purchase" ? "Read supplier bill" : "Read sales receipt"}
+          {pending ? (
+            <span className="flex items-center gap-2">
+              <span aria-hidden="true" className="size-3.5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+              <span>Scanning document…</span>
+            </span>
+          ) : selectedType === "purchase" ? (
+            "Read supplier bill"
+          ) : (
+            "Read sales receipt"
+          )}
         </button>
+
+        {pending ? (
+          <button
+            type="button"
+            onClick={cancelUpload}
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-destructive/40 bg-surface px-4 text-xs font-semibold text-destructive shadow-2xs transition-colors hover:bg-destructive/10 sm:text-sm"
+          >
+            Cancel scan
+          </button>
+        ) : null}
+
+        {file && !pending ? (
+          <button
+            type="button"
+            onClick={() => setFile(null)}
+            className="inline-flex h-10 items-center justify-center rounded-xl border border-border bg-surface px-3.5 text-xs font-medium text-muted transition-colors hover:text-foreground sm:text-sm"
+          >
+            Remove file
+          </button>
+        ) : null}
+
         {pending ? (
           <p role="status" className="flex items-center gap-2 text-sm text-muted">
             <span aria-hidden="true" className="size-2 animate-pulse rounded-full bg-chart" />
-            This can take up to 30 seconds.
+            AI is extracting details…
           </p>
-        ) : (
-          <p className="text-xs text-muted">The file is sent to the AI service to read it and is not stored by Elevate.</p>
-        )}
+        ) : null}
       </div>
     </section>
   );

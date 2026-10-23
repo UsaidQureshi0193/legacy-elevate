@@ -19,7 +19,7 @@ function ActiveDot() {
 export function BusinessNav() {
   const pathname = usePathname();
   const { businessId } = useParams<{ businessId: string }>();
-  const { overview, groups } = getNav(`/dashboard/${businessId}`);
+  const { overview, invoices, groups } = getNav(`/dashboard/${businessId}`);
 
   return (
     <nav aria-label="Business sections" className="flex items-center gap-1">
@@ -30,6 +30,15 @@ export function BusinessNav() {
         className={`${linkBase} ${isActive(pathname, overview) ? current : idle}`}
       >
         {overview.label}
+      </Link>
+      <Link
+        href={invoices.href}
+        prefetch={true}
+        aria-current={isActive(pathname, invoices) ? "page" : undefined}
+        className={`${linkBase} ${isActive(pathname, invoices) ? current : idle}`}
+      >
+        <invoices.Icon size={16} />
+        <span>{invoices.label}</span>
       </Link>
       {groups.map((group) => {
         const groupActive = group.items.some((i) => isActive(pathname, i));
@@ -80,8 +89,8 @@ export function BusinessNav() {
 export function MobileNav({ onNavigate }: { onNavigate: () => void }) {
   const pathname = usePathname();
   const { businessId } = useParams<{ businessId: string }>();
-  const { overview, groups } = getNav(`/dashboard/${businessId}`);
-  const all = [{ label: "", items: [overview] }, ...groups];
+  const { overview, invoices, groups } = getNav(`/dashboard/${businessId}`);
+  const all = [{ label: "", items: [overview, invoices] }, ...groups];
 
   return (
     <nav aria-label="Business sections" className="flex flex-col gap-4">

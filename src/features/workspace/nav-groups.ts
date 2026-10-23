@@ -17,10 +17,11 @@ export type NavItem = {
 };
 export type NavGroup = { label: string; items: NavItem[] };
 
-/** Overview is a direct link; the other groups become dropdowns. */
-export function getNav(base: string): { overview: NavItem; groups: NavGroup[] } {
+/** Overview and Invoices are direct links; the other groups become dropdowns. */
+export function getNav(base: string): { overview: NavItem; invoices: NavItem; groups: NavGroup[] } {
   return {
     overview: { href: base, label: "Overview", Icon: OverviewIcon, exact: true },
+    invoices: { href: `${base}/invoices`, label: "Invoices", Icon: InvoiceScanIcon },
     groups: [
       {
         label: "Records",
@@ -33,7 +34,6 @@ export function getNav(base: string): { overview: NavItem; groups: NavGroup[] } 
       {
         label: "Buying",
         items: [
-          { href: `${base}/invoices`, label: "Scan Invoices & Receipts", Icon: InvoiceScanIcon },
           { href: `${base}/purchases`, label: "Purchases", Icon: PurchasesIcon },
           { href: `${base}/suppliers`, label: "Suppliers", Icon: SuppliersIcon },
         ],

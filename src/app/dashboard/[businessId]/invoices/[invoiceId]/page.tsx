@@ -8,7 +8,7 @@ import { listProductsForBusiness } from "@/server/products";
 import { listSuppliersForBusiness } from "@/server/suppliers";
 import { ApiError } from "@/server/errors";
 import { formatMoney } from "@/lib/money";
-import { AlertIcon, CheckIcon, InfoIcon } from "@/components/icons";
+import { AlertIcon, CheckIcon } from "@/components/icons";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
 import { InvoiceReviewForm } from "@/features/invoices/invoice-review-form";
 import { InvoiceStatusPill, InvoiceTypeBadge } from "@/features/invoices/invoice-status";
@@ -124,11 +124,6 @@ async function InvoiceContent({ params }: { params: Params }) {
             Every line adds up and nothing was flagged. Still check it against the physical document.
           </p>
         )}
-        <p className="mt-4 flex items-start gap-2 text-xs text-muted">
-          <InfoIcon className="mt-0.5 shrink-0" />
-          Read by AI{invoice.model ? ` (${invoice.model})` : ""}. AI can misread handwriting and faint print. The file itself
-          was not stored.
-        </p>
       </section>
 
       {reviewing ? (
