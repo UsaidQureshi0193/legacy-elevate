@@ -323,6 +323,20 @@ a.bg-primary,
   animation: floatSlow 4s ease-in-out infinite;
 }
 
+@keyframes ribbonFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(1.2deg);
+  }
+}
+
+.animate-ribbon {
+  animation: ribbonFloat 22s ease-in-out infinite;
+  will-change: transform;
+}
+
 .glow-lime-pulse {
   animation: pulseGlow 2.5s infinite;
 }

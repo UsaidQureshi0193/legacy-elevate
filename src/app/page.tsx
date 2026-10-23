@@ -627,9 +627,88 @@ function FinalCta() {
   );
 }
 
+/**
+ * Modern High-End SaaS Ambient Background for Landing Page
+ * Features:
+ * - Large soft neon-lime green radial glow behind Hero right (dashboard preview halo)
+ * - Atmospheric neon-lime glow behind main headline and CTA buttons
+ * - Subtle, oversized abstract flowing ribbon-like gradient curves for futuristic depth
+ * - Lower-right and mid-section ambient radial lighting
+ * - Respects prefers-reduced-motion, responsive, zero horizontal overflow, pointer-events-none
+ */
+function LandingBackground() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden select-none"
+    >
+      {/* 1. Hero Headline & CTA Soft Ambient Glow (Top-Left) */}
+      <div className="motion-safe:animate-aurora-2 absolute -top-24 -left-36 size-[450px] sm:size-[620px] rounded-full blur-[120px] opacity-75 sm:opacity-85 bg-[radial-gradient(circle,rgba(198,255,0,0.08)_0%,rgba(198,255,0,0.02)_45%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(198,255,0,0.09)_0%,rgba(198,255,0,0.025)_45%,transparent_70%)]" />
+
+      {/* 2. Hero Dashboard Preview Halo Glow (Top-Right behind live cards showcase) */}
+      <div className="motion-safe:animate-aurora-1 absolute top-8 -right-32 sm:right-[-5%] size-[500px] sm:size-[720px] rounded-full blur-[130px] opacity-85 sm:opacity-95 bg-[radial-gradient(circle,rgba(198,255,0,0.11)_0%,rgba(198,255,0,0.035)_45%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(198,255,0,0.14)_0%,rgba(198,255,0,0.045)_45%,transparent_70%)]" />
+
+      {/* 3. Oversized Abstract Flowing Ribbon Gradient Wave (Desktop & Tablet) */}
+      <div className="motion-safe:animate-ribbon absolute top-8 left-1/2 -translate-x-1/2 w-[1400px] h-[950px] opacity-50 dark:opacity-75 hidden sm:block">
+        <svg
+          viewBox="0 0 1400 950"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full"
+        >
+          <defs>
+            <linearGradient id="neonLimeRibbon1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#C6FF00" stopOpacity="0.0" />
+              <stop offset="25%" stopColor="#C6FF00" stopOpacity="0.14" />
+              <stop offset="55%" stopColor="#C6FF00" stopOpacity="0.04" />
+              <stop offset="80%" stopColor="#C6FF00" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#C6FF00" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="neonLimeRibbon2" x1="100%" y1="20%" x2="0%" y2="80%">
+              <stop offset="0%" stopColor="#C6FF00" stopOpacity="0.0" />
+              <stop offset="30%" stopColor="#C6FF00" stopOpacity="0.10" />
+              <stop offset="65%" stopColor="#C6FF00" stopOpacity="0.02" />
+              <stop offset="100%" stopColor="#C6FF00" stopOpacity="0.0" />
+            </linearGradient>
+            <filter id="ribbonBlur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="40" />
+            </filter>
+          </defs>
+          {/* Flowing ribbon wave 1 crossing down from top-right through center */}
+          <path
+            d="M 1320,40 C 1100,280 840,210 640,430 C 440,640 220,620 40,880"
+            stroke="url(#neonLimeRibbon1)"
+            strokeWidth="50"
+            strokeLinecap="round"
+            filter="url(#ribbonBlur)"
+          />
+          {/* Counter-curve flowing ribbon wave 2 */}
+          <path
+            d="M 80,140 C 340,90 620,320 860,290 C 1100,260 1260,540 1360,780"
+            stroke="url(#neonLimeRibbon2)"
+            strokeWidth="36"
+            strokeLinecap="round"
+            filter="url(#ribbonBlur)"
+          />
+        </svg>
+      </div>
+
+      {/* 4. Mid-Section Features Ambient Glow (Left) */}
+      <div className="motion-safe:animate-aurora-3 absolute top-[36%] -left-44 size-[550px] rounded-full blur-[140px] opacity-65 bg-[radial-gradient(circle,rgba(198,255,0,0.06)_0%,rgba(198,255,0,0.015)_50%,transparent_70%)]" />
+
+      {/* 5. Bottom-Right Ambient Aura (Near Assistant & Security Showcases) */}
+      <div className="motion-safe:animate-aurora-2 absolute top-[62%] -right-40 size-[620px] rounded-full blur-[140px] opacity-80 bg-[radial-gradient(circle,rgba(198,255,0,0.09)_0%,rgba(198,255,0,0.025)_45%,transparent_70%)]" />
+
+      {/* 6. Lower Ambient Glow for Final Conversion Callout */}
+      <div className="motion-safe:animate-aurora-1 absolute bottom-20 left-1/2 -translate-x-1/2 size-[680px] rounded-full blur-[150px] opacity-60 bg-[radial-gradient(circle,rgba(198,255,0,0.07)_0%,transparent_70%)]" />
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden text-foreground">
+      <LandingBackground />
       <FloatingHeader />
       <main className={`${wrap} flex flex-1 flex-col`}>
         <Hero />
