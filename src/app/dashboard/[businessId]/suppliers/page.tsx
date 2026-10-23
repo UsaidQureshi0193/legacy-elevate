@@ -26,25 +26,39 @@ async function SuppliersContent({ params }: { params: Params }) {
           No suppliers yet. Add the first one below, then record purchases against them.
         </p>
       ) : (
-        <section aria-labelledby="suppliers-heading" className={panelClass}>
-          <div className="flex items-baseline justify-between gap-3 px-5 pt-5 pb-2 sm:px-6">
-            <h2 id="suppliers-heading" className={panelTitleClass}>Your suppliers</h2>
-            <span className="num text-sm text-muted">{suppliers.length}</span>
+        <section aria-labelledby="suppliers-heading" className={`${panelClass} shadow-xs`}>
+          <div className="flex items-center justify-between border-b border-border bg-surface-muted/40 px-5 py-3 sm:px-6">
+            <h2 id="suppliers-heading" className="text-sm font-semibold tracking-wide text-foreground">
+              Your suppliers
+            </h2>
+            <span className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 text-xs font-semibold text-muted">
+              {suppliers.length} suppliers
+            </span>
           </div>
-          <ul>
+          <ul className="divide-y divide-border/60">
             {suppliers.map((s) => (
-              <li key={s.supplierId} className="border-t border-rule first:border-t-0">
+              <li key={s.supplierId}>
                 <Link
                   href={`/dashboard/${businessId}/suppliers/${s.supplierId}`}
-                  className="flex items-center justify-between gap-4 px-5 py-3 text-sm transition hover:bg-surface-muted/60 sm:px-6"
+                  className="group flex items-center justify-between gap-4 px-5 py-3.5 text-sm transition-colors hover:bg-surface-muted/40 sm:px-6"
                 >
-                  <span className="min-w-0">
-                    <span className="block truncate font-medium">{s.name}</span>
-                    <span className="block truncate text-xs text-muted">
-                      {s.contact.phone ?? s.contact.email ?? "No contact details"}
-                    </span>
+                  <div className="flex min-w-0 items-center gap-3.5">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 font-bold text-sm text-foreground">
+                      {s.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <span className="block truncate font-semibold text-foreground group-hover:text-primary transition-colors">
+                        {s.name}
+                      </span>
+                      <span className="block truncate text-xs text-muted">
+                        {s.contact.phone || s.contact.email || "No contact info recorded"}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-xs font-semibold text-muted shadow-2xs transition-colors group-hover:border-muted group-hover:bg-surface-muted group-hover:text-foreground">
+                    <span>View history</span>
+                    <span aria-hidden="true" className="text-xs">→</span>
                   </span>
-                  <span aria-hidden="true" className="text-muted">→</span>
                 </Link>
               </li>
             ))}

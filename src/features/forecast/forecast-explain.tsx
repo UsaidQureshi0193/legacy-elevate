@@ -64,9 +64,6 @@ export function ForecastExplain({
             <h3 id="ai-insights-heading" className={panelTitleClass}>
               AI Strategic Insights & Recommendations
             </h3>
-            <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-              Hosted Model
-            </span>
           </div>
           <p className="mt-0.5 text-xs text-muted">
             Translates deterministic demand, cash flow, and stock risks into practical business guidance.

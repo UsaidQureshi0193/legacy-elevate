@@ -29,40 +29,52 @@ function ExpenseList({
     );
   }
   return (
-    <div className={`${panelClass} overflow-x-auto`}>
+    <div className={`${panelClass} overflow-x-auto shadow-xs`}>
       <table className="w-full min-w-[640px] text-sm">
         <caption className="sr-only">Recorded expenses</caption>
         <thead>
-          <tr className="border-b border-border text-xs text-muted">
-            <th scope="col" className="px-4 py-2.5 text-left font-normal">Date</th>
-            <th scope="col" className="px-4 py-2.5 text-left font-normal">Category</th>
-            <th scope="col" className="px-4 py-2.5 text-left font-normal">Description</th>
-            <th scope="col" className="px-4 py-2.5 text-right font-normal">Amount</th>
-            <th scope="col" className="px-4 py-2.5 text-left font-normal">
+          <tr className="border-b border-border bg-surface-muted/40 text-xs font-semibold tracking-wider text-muted uppercase">
+            <th scope="col" className="px-5 py-3 text-left">Date</th>
+            <th scope="col" className="px-4 py-3 text-left">Category</th>
+            <th scope="col" className="px-4 py-3 text-left">Description</th>
+            <th scope="col" className="px-4 py-3 text-right">Amount</th>
+            <th scope="col" className="px-5 py-3 text-right">
               <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-border/60">
           {expenses.map((expense) => (
             <tr
               key={expense.expenseId}
-              className={`border-t border-rule first:border-t-0 ${expense.voidedAt ? "text-muted" : ""}`}
+              className={`transition-colors hover:bg-surface-muted/40 ${expense.voidedAt ? "opacity-60" : ""}`}
             >
-              <td className="px-4 py-3 whitespace-nowrap text-muted">{expense.date}</td>
-              <td className="px-4 py-3 font-medium">{expense.category}</td>
-              <td className="px-4 py-3 text-muted">
-                {expense.description ?? "—"}
-                {expense.voidReason ? ` (${expense.voidReason})` : ""}
+              <td className="px-5 py-3.5 whitespace-nowrap">
+                <span className="inline-block rounded-md border border-border bg-surface-muted px-2 py-0.5 font-mono text-xs text-muted">
+                  {expense.date}
+                </span>
+              </td>
+              <td className="px-4 py-3.5 whitespace-nowrap">
+                <span className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 text-xs font-semibold text-foreground shadow-2xs">
+                  {expense.category}
+                </span>
+              </td>
+              <td className="px-4 py-3.5 text-muted">
+                <span>{expense.description ?? "—"}</span>
+                {expense.voidReason ? (
+                  <span className="ml-1 text-xs text-destructive">({expense.voidReason})</span>
+                ) : null}
               </td>
               <td
-                className={`px-4 py-3 text-right font-medium ${expense.voidedAt ? "line-through" : ""}`}
+                className="px-4 py-3.5 text-right font-mono text-sm font-semibold tabular-nums"
               >
-                {formatMoney(expense.amount, currency)}
+                <span className={expense.voidedAt ? "line-through text-muted" : "text-foreground"}>
+                  {formatMoney(expense.amount, currency)}
+                </span>
               </td>
-              <td className="px-4 py-3 text-right">
+              <td className="px-5 py-3.5 text-right whitespace-nowrap">
                 {expense.voidedAt ? (
-                  <span className="inline-flex flex-none rounded-full bg-surface-muted px-2 py-0.5 text-xs font-medium whitespace-nowrap text-muted">
+                  <span className="inline-flex items-center rounded-full border border-border bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-muted">
                     Voided
                   </span>
                 ) : (

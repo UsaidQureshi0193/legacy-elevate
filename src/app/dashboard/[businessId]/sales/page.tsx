@@ -22,28 +22,47 @@ function SaleList({ sales, currency }: { sales: Sale[]; currency: string }) {
     );
   }
   return (
-    <section aria-labelledby="sales-heading" className={panelClass}>
-      <div className="flex items-baseline justify-between gap-3 px-5 pt-5 pb-2 sm:px-6">
-        <h2 id="sales-heading" className={panelTitleClass}>Recorded sales</h2>
-        <span className="num text-sm text-muted">{sales.length}</span>
+    <section aria-labelledby="sales-heading" className={`${panelClass} shadow-xs`}>
+      <div className="flex items-center justify-between border-b border-border bg-surface-muted/40 px-5 py-3 sm:px-6">
+        <h2 id="sales-heading" className="text-sm font-semibold tracking-wide text-foreground">
+          Recorded sales
+        </h2>
+        <span className="inline-flex items-center rounded-full border border-border bg-surface px-2.5 py-0.5 text-xs font-semibold text-muted">
+          {sales.length} transactions
+        </span>
       </div>
-      <ul>
+      <ul className="divide-y divide-border/60">
         {sales.map((sale) => (
           <li
             key={sale.saleId}
-            className="flex items-start justify-between gap-4 border-t border-rule px-5 py-3 text-sm first:border-t-0 sm:px-6"
+            className="flex flex-col gap-2 px-5 py-3.5 transition-colors hover:bg-surface-muted/40 sm:flex-row sm:items-center sm:justify-between sm:px-6"
           >
-            <div className="min-w-0">
-              <p className="truncate font-medium">
-                {sale.items
-                  .map((item) => `${item.quantity} × ${item.name}`)
-                  .join(", ")}
-              </p>
-              <p className="num mt-0.5 text-xs text-muted">{sale.date}</p>
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-block rounded-md border border-border bg-surface-muted px-2 py-0.5 font-mono text-xs text-muted">
+                  {sale.date}
+                </span>
+                <span className="text-xs text-muted">
+                  {sale.items.reduce((sum, item) => sum + item.quantity, 0)} items sold
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {sale.items.map((item, idx) => (
+                  <span
+                    key={`${sale.saleId}-${item.name}-${idx}`}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-2.5 py-1 text-xs font-medium text-foreground shadow-2xs"
+                  >
+                    <span className="font-bold text-foreground/80">{item.quantity}×</span>
+                    <span>{item.name}</span>
+                  </span>
+                ))}
+              </div>
             </div>
-            <span className="num shrink-0 font-semibold">
-              {formatMoney(sale.total, currency)}
-            </span>
+            <div className="flex shrink-0 items-center justify-end">
+              <span className="font-mono text-base font-bold text-foreground tabular-nums">
+                {formatMoney(sale.total, currency)}
+              </span>
+            </div>
           </li>
         ))}
       </ul>

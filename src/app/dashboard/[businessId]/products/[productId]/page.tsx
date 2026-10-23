@@ -13,7 +13,6 @@ import { PriceComparison } from "@/features/suppliers/price-comparison";
 import { formatMoney } from "@/lib/money";
 import { calcPriceScenario, formatRatio } from "@/lib/pricing";
 import { isLowStock } from "@/lib/calculations";
-import { AlertIcon } from "@/components/icons";
 import { panelClass, panelTitleClass } from "@/features/auth/ui";
 import { ApiError } from "@/server/errors";
 import { PageHeader, PageSkeleton } from "@/features/workspace/page-header";
@@ -66,8 +65,8 @@ async function ProductContent({ params }: { params: Params }) {
           <dd className="num mt-1 flex items-center gap-2 text-xl font-semibold">
             {product.quantity}
             {low ? (
-              <span className="inline-flex flex-none items-center gap-1 rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-xs font-medium text-warning">
-                <AlertIcon size={12} /> Low
+              <span className="inline-flex flex-none items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-2.5 py-0.5 text-xs font-semibold text-amber-500">
+                <span className="size-1.5 rounded-full bg-amber-500 animate-pulse" /> Low Stock
               </span>
             ) : null}
           </dd>

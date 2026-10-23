@@ -84,7 +84,7 @@ function HeroMarqueeShowcase() {
     {
       type: "invoice",
       title: "Smart Invoice Scan",
-      tag: "Gemini Vision Extracted",
+      tag: "AI Vision Extracted",
       detail: "Al-Madina Oil Mills · Rs 24,500",
       sub: "5 items matched to stock · Quantities confirmed",
       icon: InvoiceScanIcon,
@@ -261,8 +261,8 @@ function HowItWorks() {
     {
       num: "01",
       title: "Snap or Upload Invoices",
-      desc: "Upload paper wholesale receipts or PDFs. Gemini Vision OCR extracts the supplier, item breakdown, unit prices, and quantities automatically.",
-      badge: "Gemini Vision OCR",
+      desc: "Upload paper wholesale receipts or PDFs. Advanced Vision AI extracts the supplier, item breakdown, unit prices, and quantities automatically.",
+      badge: "AI Vision OCR",
       icon: InvoiceScanIcon,
     },
     {
@@ -350,7 +350,7 @@ function BentoFeatures() {
                 <InvoiceScanIcon size={20} />
               </span>
               <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-bold text-foreground">
-                Google Gemini Vision AI
+                Advanced Vision AI
               </span>
             </div>
             <h3 className="mt-5 text-xl font-bold text-foreground">

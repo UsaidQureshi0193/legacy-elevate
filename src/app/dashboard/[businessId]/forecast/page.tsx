@@ -12,7 +12,6 @@ import { ForecastFinancials } from "@/features/forecast/forecast-financials";
 import { ForecastSeasonality } from "@/features/forecast/forecast-seasonality";
 import { ForecastTable } from "@/features/forecast/forecast-table";
 import { ForecastExplain } from "@/features/forecast/forecast-explain";
-import { Note } from "@/components/ui/note";
 import { ForecastTabs } from "@/features/forecast/forecast-tabs";
 import { emptyStateClass } from "@/features/auth/ui";
 
@@ -38,7 +37,7 @@ async function ForecastContent({ params, searchParams }: { params: Params; searc
     <div className="flex flex-col gap-6">
       <PageHeader
         title="Business Forecast & Projections"
-        description="Estimates, not guarantees. Combines your recorded sales, inventory, expenses, and Pakistan seasonal demand cycles."
+        description="Combines your recorded sales, inventory, expenses, and seasonal demand cycles to project growth."
         actions={
           <nav aria-label="Forecast horizon" className="flex gap-1 bg-surface-muted p-1 rounded-xl border border-border">
             {HORIZONS.map((h) => (
@@ -58,11 +57,6 @@ async function ForecastContent({ params, searchParams }: { params: Params; searc
           </nav>
         }
       />
-
-      <Note title="Estimates, not guarantees:">
-        Projections assume current operational velocity and recorded cost structures. Unrecorded overheads or market
-        shifts may alter actual outcomes.
-      </Note>
 
       {!hasProducts ? (
         <p className={emptyStateClass}>

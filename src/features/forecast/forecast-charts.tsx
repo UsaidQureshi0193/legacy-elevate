@@ -120,7 +120,7 @@ export function ForecastCharts({
 
         <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs text-muted">
           <span>{topProducts.length} high-velocity items listed</span>
-          <span>Estimates, not guarantees</span>
+          <span>Projected trends</span>
         </div>
       </section>
     </div>

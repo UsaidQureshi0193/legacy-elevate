@@ -240,8 +240,7 @@ export function AssistantChat({
           </p>
         ) : null}
         <p className="text-xs text-muted">
-          Enter to send, Shift+Enter for a new line. Answers are estimates and suggestions, not accounting, tax or
-          legal advice. Only the figures an answer needs are sent to the AI service.
+          Enter to send, Shift+Enter for a new line.
         </p>
       </form>
     </section>

@@ -142,23 +142,23 @@ export function ProductTable({
   }
 
   return (
-    <div className={`${panelClass} overflow-x-auto`}>
-      <table className="w-full min-w-[720px] text-sm">
+    <div className={`${panelClass} overflow-x-auto shadow-xs`}>
+      <table className="w-full min-w-[760px] text-sm">
         <caption className="sr-only">Products and stock</caption>
         <thead>
-          <tr className="border-b border-border text-xs text-muted">
-            <th scope="col" className={`${headClass} w-[34%]`}>Product</th>
-            <th scope="col" className={headClass}>SKU</th>
-            <th scope="col" className={numHeadClass}>In stock</th>
-            <th scope="col" className={numHeadClass}>Unit cost</th>
-            <th scope="col" className={numHeadClass}>Price</th>
-            <th scope="col" className={numHeadClass}>Alert at</th>
-            <th scope="col" className={headClass}>
+          <tr className="border-b border-border bg-surface-muted/40 text-xs font-semibold tracking-wider text-muted uppercase">
+            <th scope="col" className="px-5 py-3 text-left">Product</th>
+            <th scope="col" className="px-4 py-3 text-left">SKU</th>
+            <th scope="col" className="px-4 py-3 text-center">In stock</th>
+            <th scope="col" className="px-4 py-3 text-right">Unit cost</th>
+            <th scope="col" className="px-4 py-3 text-right">Selling Price</th>
+            <th scope="col" className="px-4 py-3 text-center">Alert at</th>
+            <th scope="col" className="px-5 py-3 text-right">
               <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-border/60">
           {products.map((product) =>
             editingId === product.productId ? (
               <EditRow
@@ -168,43 +168,78 @@ export function ProductTable({
                 onDone={() => setEditingId(null)}
               />
             ) : (
-              <tr key={product.productId} className="border-t border-rule transition hover:bg-surface-muted/60">
-                <td className={cellClass}>
+              <tr key={product.productId} className="transition-colors hover:bg-surface-muted/40">
+                <td className="px-5 py-3.5">
                   <Link
                     href={`/dashboard/${businessId}/products/${product.productId}`}
-                    className="font-medium hover:underline"
+                    className="font-semibold text-foreground transition-colors hover:text-primary hover:underline"
                   >
                     {product.name}
                   </Link>
                 </td>
-                <td className={`${cellClass} text-muted`}>{product.sku ?? "—"}</td>
-                <td className={numClass}>
-                  {isLow(product) ? (
-                    <span className="mr-2 inline-flex flex-none items-center gap-1 rounded-full border border-warning-border bg-warning-bg px-2 py-0.5 text-xs font-medium whitespace-nowrap text-warning">
-                      <AlertIcon size={12} /> Low
+                <td className="px-4 py-3.5">
+                  {product.sku ? (
+                    <span className="inline-block rounded-md border border-border bg-surface-muted px-2 py-0.5 font-mono text-xs text-muted">
+                      {product.sku}
                     </span>
-                  ) : null}
-                  <span className="font-medium">{product.quantity}</span>
+                  ) : (
+                    <span className="text-muted/60">—</span>
+                  )}
                 </td>
-                <td className={`${numClass} text-muted`}>{formatMoney(product.unitCost, currency)}</td>
-                <td className={numClass}>{formatMoney(product.sellingPrice, currency)}</td>
-                <td className={`${numClass} text-muted`}>
-                  {product.reorderLevel ?? "—"}
+                <td className="px-4 py-3.5 text-center whitespace-nowrap">
+                  {product.quantity <= 0 ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-2.5 py-1 text-xs font-semibold text-rose-400">
+                      <span className="size-1.5 rounded-full bg-rose-400" />
+                      <span>0</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider opacity-90">Out</span>
+                    </span>
+                  ) : isLow(product) ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-400 dark:text-amber-300">
+                      <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      <span className="font-bold">{product.quantity}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-500 dark:text-amber-300">
+                        Low Stock
+                      </span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-muted/60 px-2.5 py-1 text-xs font-semibold text-foreground">
+                      <span className="size-1.5 rounded-full bg-emerald-400" />
+                      <span>{product.quantity}</span>
+                    </span>
+                  )}
                 </td>
-                <td className={`${cellClass} whitespace-nowrap text-right`}>
-                  <button
-                    type="button"
-                    onClick={() => setEditingId(product.productId)}
-                    className="text-sm font-medium hover:underline"
-                  >
-                    Edit
-                  </button>
-                  <Link
-                    href={`/dashboard/${businessId}/products/${product.productId}`}
-                    className="ml-4 text-sm font-medium text-muted hover:text-foreground hover:underline"
-                  >
-                    Stock &amp; pricing
-                  </Link>
+                <td className="px-4 py-3.5 text-right font-mono text-xs text-muted tabular-nums">
+                  {formatMoney(product.unitCost, currency)}
+                </td>
+                <td className="px-4 py-3.5 text-right font-mono text-sm font-semibold text-foreground tabular-nums">
+                  {formatMoney(product.sellingPrice, currency)}
+                </td>
+                <td className="px-4 py-3.5 text-center">
+                  {product.reorderLevel !== null ? (
+                    <span className="inline-block rounded-md border border-border bg-surface-muted px-2 py-0.5 text-xs text-muted">
+                      ≤ {product.reorderLevel}
+                    </span>
+                  ) : (
+                    <span className="text-muted/60">—</span>
+                  )}
+                </td>
+                <td className="px-5 py-3.5 whitespace-nowrap text-right">
+                  <div className="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setEditingId(product.productId)}
+                      className="inline-flex h-8 items-center justify-center rounded-lg border border-border bg-surface px-2.5 text-xs font-semibold text-foreground shadow-2xs transition-colors hover:bg-surface-muted hover:border-muted"
+                    >
+                      Edit
+                    </button>
+                    <Link
+                      href={`/dashboard/${businessId}/products/${product.productId}`}
+                      className="inline-flex h-8 items-center gap-1 rounded-lg border border-border bg-surface px-2.5 text-xs font-semibold text-muted shadow-2xs transition-colors hover:text-foreground hover:bg-surface-muted"
+                    >
+                      <span>Stock &amp; pricing</span>
+                      <span aria-hidden="true" className="text-xs">→</span>
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ),
